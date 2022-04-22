@@ -1,15 +1,15 @@
 {
   "compilerOptions": {
     "target": "es2017",
-    "lib": ["esnext"],                                        /* Specify a set of bundled library declaration files that describe the target runtime environment. */
-    "module": "commonjs",                                /* Specify what module code is generated. */
-    "baseUrl": ".",                                  /* Specify the base directory to resolve non-relative module names. */
-    "sourceMap": true,                                /* Create source map files for emitted JavaScript files. */
-    "outDir": "dist",                                   /* Specify an output folder for all emitted files. */
-    "esModuleInterop": true,                             /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables `allowSyntheticDefaultImports` for type compatibility. */
-    "forceConsistentCasingInFileNames": true,            /* Ensure that casing is correct in imports. */
-    "strict": true,                                      /* Enable all strict type-checking options. */
+    "lib": ["esnext"],
+    "module": "commonjs",
+    "baseUrl": ".",
+    "sourceMap": true,
+    "outDir": "dist",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
     "noUnusedLocals": true,
-    "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
+    "skipLibCheck": true
   }
 }
