@@ -4,8 +4,6 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { App } from './App'
 
-
-
 const config: Config = {
   readOnlyChainId: Kovan.chainId,
   readOnlyUrls: {

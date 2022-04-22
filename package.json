@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "workspaces": [
     "common",
-    "frontend"
+    "frontend",
+    "backend"
   ],
   "main": "index.js",
   "repository": "https://github.com/rzadp/eth-amsterdam.git",
