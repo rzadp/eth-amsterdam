@@ -1,12 +1,5 @@
-import { utils } from 'ethers'
-import { Contract } from '@ethersproject/contracts'
-import MarginEngine from '../../voltz-core/deployments/kovan/MarginEngine.json'
 import { useContractFunction } from '@usedapp/core'
-
-const KovanMasterMarginEngine = '0x82ea0a9c578042154188d635d9c0e2e13ff6e846'
-const marginEngineInterface = new utils.Interface(MarginEngine.abi)
-const contract = new Contract(KovanMasterMarginEngine, marginEngineInterface)
-
+import { masterEngine } from './masterEngine'
 export interface LiquidatePositionArgs {
   owner: string,
   fixedLow: number,
@@ -15,7 +8,7 @@ export interface LiquidatePositionArgs {
 
 export const useLiquidationFunction = () => {
   const { state, send } = useContractFunction(
-    contract,
+    masterEngine,
     'liquidatePosition',
     { transactionName: 'liquidatePosition' }
   )
