@@ -27,3 +27,6 @@ tsconfig.tsbuildinfo
 
 # Eslint cache
 .eslintcache
+.parcel-cache
+build
+dist

@@ -10,8 +10,8 @@
     "build": "parcel build --public-url ./ ./src/index.html --experimental-scope-hoisting --out-dir build"
   },
   "dependencies": {
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react": "^17.0.0",
+    "react-dom": "^17.0.0"
   },
   "devDependencies": {
     "eslint": "^8.13.0",
