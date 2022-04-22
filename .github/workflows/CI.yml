@@ -15,8 +15,6 @@ jobs:
           node-version: '16.x'
       - run: yarn install --frozen-lockfile
       - run: yarn build
-        working-directory: common
-      - run: yarn build
         working-directory: frontend
   test-backend:
     runs-on: ubuntu-latest
@@ -27,7 +25,5 @@ jobs:
         with:
           node-version: '16.x'
       - run: yarn install --frozen-lockfile
-      - run: yarn build
-        working-directory: common
       - run: yarn build
         working-directory: backend
