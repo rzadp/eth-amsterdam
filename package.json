@@ -2,6 +2,7 @@
   "name": "eth-amsterdam",
   "version": "1.0.0",
   "workspaces": [
+    "common",
     "frontend"
   ],
   "main": "index.js",

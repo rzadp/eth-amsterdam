@@ -1,11 +1,21 @@
+import { Config, DAppProvider, Kovan } from '@usedapp/core'
+import { getDefaultProvider } from 'ethers'
 import React from 'react'
 import ReactDOM from 'react-dom'
-
 import { App } from './App'
 
+
+
+const config: Config = {
+  readOnlyChainId: Kovan.chainId,
+  readOnlyUrls: {
+    [Kovan.chainId]: getDefaultProvider('kovan'),
+  },
+}
+
 ReactDOM.render(
-  <React.StrictMode>
+  <DAppProvider config={config}>
     <App />
-  </React.StrictMode>,
+  </DAppProvider>,
   document.getElementById('root')
 )

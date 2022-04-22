@@ -5,10 +5,14 @@
   "license": "MIT",
   "scripts": {
     "dev": "parcel ./src/index.html",
+    "start": "yarn dev",
     "prebuild": "rm -rf build",
     "build": "parcel build --public-url ./ ./src/index.html"
   },
   "dependencies": {
+    "@usedapp/core": "^1.0.0",
+    "eth-amsterdam-common": "*",
+    "ethers": "^5.6.4",
     "react": "^17.0.0",
     "react-dom": "^17.0.0"
   },
