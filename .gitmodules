@@ -1,0 +1,3 @@
+[submodule "voltz-core"]
+	path = voltz-core
+	url = https://github.com/Voltz-Protocol/voltz-core.git
