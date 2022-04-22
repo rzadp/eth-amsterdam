@@ -1,0 +1,9 @@
+query getPositions {
+    positions {
+        id
+        tickLower { value }
+        tickUpper { value }
+        margin
+        owner { id }
+    }
+}

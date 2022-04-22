@@ -1,0 +1,15 @@
+overwrite: true
+config:
+  scalars:
+    BigInt: string
+    BigDecimal: string
+    Bytes: string
+generates:
+  src/generated/v1Graphql.tsx:
+    schema: "https://api.thegraph.com/subgraphs/name/voltzprotocol/v1"
+    documents: "src/queries/v1.graphql"
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"
+      - "fragment-matcher"

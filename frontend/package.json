@@ -7,7 +7,8 @@
     "dev": "parcel ./src/index.html --open",
     "start": "yarn dev",
     "prebuild": "rm -rf build",
-    "build": "parcel build --public-url ./ ./src/index.html"
+    "build": "parcel build --public-url ./ ./src/index.html",
+    "codegen:graphql": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
     "@apollo/client": "^3.5.10",
@@ -18,6 +19,11 @@
     "react-dom": "^17.0.0"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^2.6.2",
+    "@graphql-codegen/fragment-matcher": "^3.2.1",
+    "@graphql-codegen/typescript": "^2.4.8",
+    "@graphql-codegen/typescript-operations": "^2.3.5",
+    "@graphql-codegen/typescript-react-apollo": "^3.2.11",
     "eslint": "^8.13.0",
     "parcel": "^2.5.0",
     "process": "^0.11.10",

@@ -30,3 +30,4 @@ tsconfig.tsbuildinfo
 .parcel-cache
 build
 dist
+generated
