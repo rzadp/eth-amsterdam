@@ -3,16 +3,16 @@ import { masterEngine } from "./masterEngine";
 
 export interface useLiquidationThresholdProps {
   owner: string,
-  fixedLow: number,
-  fixedHigh: number
+  tickLower: number,
+  tickUpper: number
 }
 
-export const useLiquidationThreshold = ({owner, fixedLow, fixedHigh}: useLiquidationThresholdProps) => {
+export const useLiquidationThreshold = ({owner, tickLower, tickUpper}: useLiquidationThresholdProps) => {
   const call: Call = {
     contract: masterEngine,
     method: 'getPositionMarginRequirement',
     args: [
-      owner, fixedLow, fixedHigh,
+      owner, tickLower, tickUpper,
       false // _isLM
     ]
   }
