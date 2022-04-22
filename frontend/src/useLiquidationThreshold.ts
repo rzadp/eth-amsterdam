@@ -13,7 +13,7 @@ export const useLiquidationThreshold = ({owner, fixedLow, fixedHigh}: useLiquida
     method: 'getPositionMarginRequirement',
     args: [
       owner, fixedLow, fixedHigh,
-      false
+      false // _isLM
     ]
   }
 
