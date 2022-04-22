@@ -1,0 +1,11 @@
+{
+  "name": "eth-amsterdam",
+  "version": "1.0.0",
+  "workspaces": [
+    "frontend"
+  ],
+  "main": "index.js",
+  "repository": "https://github.com/rzadp/eth-amsterdam.git",
+  "license": "MIT",
+  "private": true
+}

@@ -1,0 +1,32 @@
+{
+  "include": [
+    "src",
+    "test"
+  ],
+  "exclude": [
+  ],
+  "compilerOptions": {
+    "target": "es6",
+    "lib": [
+      "es6",
+      "esnext"
+    ],
+    "noImplicitAny": false,
+    "noImplicitThis": false,
+    "strictNullChecks": true,
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "noFallthroughCasesInSwitch": true,
+    "baseUrl": ".",
+    "incremental": true
+  }
+}
