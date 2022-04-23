@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useNotifications } from './hooks/useNotifications'
-import { InfoNotification } from 'src/components'
+import { InfoNotification } from './components'
 
 const epnsWalletAddress = "0x222232c882677d524C4C1DD3AcD477ED7938F9d5"; // Example address with notification
 

@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 import styled from 'styled-components'
 import { NotificationWrapper } from './NotificationWrapper'
-import { COLORS } from 'src/styles/colors'
+import { COLORS } from '../styles/colors'
 import { Button } from './Button'
 import { DismissButton } from './DismissButton'
 
