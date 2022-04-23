@@ -1,5 +1,9 @@
 {
   "extends": "../tsconfig.json",
+  "include": ["src"],
+  "exclude": [
+    "**/generated/*"
+  ],
   "compilerOptions": {
     "lib": [
       "es6",
@@ -7,7 +11,9 @@
       "dom.iterable",
       "esnext"
     ],
+    "target": "es6",
     "jsx": "react-jsx",
-    "noEmit": true
+    "noEmit": true,
+    "baseUrl": "."
   }
 }

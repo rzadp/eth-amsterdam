@@ -1,0 +1,17 @@
+overwrite: true
+generates:
+  src/generated/v1Graphql.tsx:
+    schema: "./src/queries/v1.graphql"
+    documents: "./src/**/*.graphql"
+    config:
+      withHooks: true
+      strictScalars: true
+      scalars:
+        BigInt: string
+        BigDecimal: string
+        Bytes: string
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"
+      - "fragment-matcher"

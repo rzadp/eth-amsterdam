@@ -1,5 +1,5 @@
 import { useContractFunction } from '@usedapp/core'
-import { useMarginEngine } from './marginEngine'
+import { useMarginEngine } from './useMarginEngine'
 
 export interface LiquidatePositionArgs {
   owner: string,
@@ -11,7 +11,7 @@ export const useLiquidationFunction = (marginEngineAddress: string) => {
   const contract = useMarginEngine(marginEngineAddress)
 
   const { state, send } = useContractFunction(
-    contract,
+    contract!,
     'liquidatePosition',
     { transactionName: 'liquidatePosition' }
   )
