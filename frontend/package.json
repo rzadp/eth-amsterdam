@@ -8,6 +8,7 @@
     "start": "yarn dev",
     "prebuild": "rm -rf build",
     "build": "parcel build --public-url ./ ./src/index.html",
+    "schemaUpdate": "get-graphql-schema https://api.thegraph.com/subgraphs/name/voltzprotocol/v1 > ./src/queries/v1.graphql",
     "codegen:graphql": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
@@ -21,10 +22,12 @@
   "devDependencies": {
     "@graphql-codegen/cli": "^2.6.2",
     "@graphql-codegen/fragment-matcher": "^3.2.1",
+    "@graphql-codegen/introspection": "^2.1.1",
     "@graphql-codegen/typescript": "^2.4.8",
     "@graphql-codegen/typescript-operations": "^2.3.5",
     "@graphql-codegen/typescript-react-apollo": "^3.2.11",
     "eslint": "^8.13.0",
+    "get-graphql-schema": "^2.1.2",
     "parcel": "^2.5.0",
     "process": "^0.11.10",
     "typescript": "^4.6.3"

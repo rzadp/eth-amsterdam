@@ -1,9 +1,2428 @@
-query getPositions {
-    positions {
-        id
-        tickLower { value }
-        tickUpper { value }
-        margin
-        owner { id }
-    }
+"""
+Marks the GraphQL type as indexable entity.  Each type that should be an entity
+is required to be annotated with this directive.
+"""
+directive @entity on OBJECT
+
+"""Defined a Subgraph ID for an object type"""
+directive @subgraphId(id: String!) on OBJECT
+
+"""
+creates a virtual field on the entity that may be queried but cannot be set manually through the mappings API.
+"""
+directive @derivedFrom(field: String!) on FIELD_DEFINITION
+
+type _Block_ {
+  """The hash of the block"""
+  hash: Bytes
+
+  """The block number"""
+  number: Int!
 }
+
+"""The type for the top-level _meta field"""
+type _Meta_ {
+  """
+  Information about a specific subgraph block. The hash of the block
+  will be null if the _meta field has a block constraint that asks for
+  a block number. It will be filled if the _meta field has no block constraint
+  and therefore asks for the latest  block
+  
+  """
+  block: _Block_!
+
+  """The deployment ID"""
+  deployment: String!
+
+  """If `true`, the subgraph encountered indexing errors at some past block"""
+  hasIndexingErrors: Boolean!
+}
+
+enum _SubgraphErrorPolicy_ {
+  """Data will be returned even if the subgraph has indexing errors"""
+  allow
+
+  """
+  If the subgraph has indexing errors, data will be omitted. The default.
+  """
+  deny
+}
+
+type AMM {
+  id: ID!
+  createdTimestamp: BigInt!
+  updatedTimestamp: BigInt!
+  fcmAddress: String!
+  marginEngineAddress: String!
+  rateOracle: RateOracle!
+  termStartTimestamp: BigInt!
+  termEndTimestamp: BigInt!
+  tickSpacing: BigInt!
+  sqrtPriceX96: BigInt!
+  liquidity: BigInt!
+  tick: BigInt!
+  txCount: BigInt!
+  mints(skip: Int = 0, first: Int = 100, orderBy: Mint_orderBy, orderDirection: OrderDirection, where: Mint_filter): [Mint!]!
+  burns(skip: Int = 0, first: Int = 100, orderBy: Burn_orderBy, orderDirection: OrderDirection, where: Burn_filter): [Burn!]!
+  swaps(skip: Int = 0, first: Int = 100, orderBy: Swap_orderBy, orderDirection: OrderDirection, where: Swap_filter): [Swap!]!
+}
+
+input AMM_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  createdTimestamp: BigInt
+  createdTimestamp_not: BigInt
+  createdTimestamp_gt: BigInt
+  createdTimestamp_lt: BigInt
+  createdTimestamp_gte: BigInt
+  createdTimestamp_lte: BigInt
+  createdTimestamp_in: [BigInt!]
+  createdTimestamp_not_in: [BigInt!]
+  updatedTimestamp: BigInt
+  updatedTimestamp_not: BigInt
+  updatedTimestamp_gt: BigInt
+  updatedTimestamp_lt: BigInt
+  updatedTimestamp_gte: BigInt
+  updatedTimestamp_lte: BigInt
+  updatedTimestamp_in: [BigInt!]
+  updatedTimestamp_not_in: [BigInt!]
+  fcmAddress: String
+  fcmAddress_not: String
+  fcmAddress_gt: String
+  fcmAddress_lt: String
+  fcmAddress_gte: String
+  fcmAddress_lte: String
+  fcmAddress_in: [String!]
+  fcmAddress_not_in: [String!]
+  fcmAddress_contains: String
+  fcmAddress_contains_nocase: String
+  fcmAddress_not_contains: String
+  fcmAddress_not_contains_nocase: String
+  fcmAddress_starts_with: String
+  fcmAddress_starts_with_nocase: String
+  fcmAddress_not_starts_with: String
+  fcmAddress_not_starts_with_nocase: String
+  fcmAddress_ends_with: String
+  fcmAddress_ends_with_nocase: String
+  fcmAddress_not_ends_with: String
+  fcmAddress_not_ends_with_nocase: String
+  marginEngineAddress: String
+  marginEngineAddress_not: String
+  marginEngineAddress_gt: String
+  marginEngineAddress_lt: String
+  marginEngineAddress_gte: String
+  marginEngineAddress_lte: String
+  marginEngineAddress_in: [String!]
+  marginEngineAddress_not_in: [String!]
+  marginEngineAddress_contains: String
+  marginEngineAddress_contains_nocase: String
+  marginEngineAddress_not_contains: String
+  marginEngineAddress_not_contains_nocase: String
+  marginEngineAddress_starts_with: String
+  marginEngineAddress_starts_with_nocase: String
+  marginEngineAddress_not_starts_with: String
+  marginEngineAddress_not_starts_with_nocase: String
+  marginEngineAddress_ends_with: String
+  marginEngineAddress_ends_with_nocase: String
+  marginEngineAddress_not_ends_with: String
+  marginEngineAddress_not_ends_with_nocase: String
+  rateOracle: String
+  rateOracle_not: String
+  rateOracle_gt: String
+  rateOracle_lt: String
+  rateOracle_gte: String
+  rateOracle_lte: String
+  rateOracle_in: [String!]
+  rateOracle_not_in: [String!]
+  rateOracle_contains: String
+  rateOracle_contains_nocase: String
+  rateOracle_not_contains: String
+  rateOracle_not_contains_nocase: String
+  rateOracle_starts_with: String
+  rateOracle_starts_with_nocase: String
+  rateOracle_not_starts_with: String
+  rateOracle_not_starts_with_nocase: String
+  rateOracle_ends_with: String
+  rateOracle_ends_with_nocase: String
+  rateOracle_not_ends_with: String
+  rateOracle_not_ends_with_nocase: String
+  termStartTimestamp: BigInt
+  termStartTimestamp_not: BigInt
+  termStartTimestamp_gt: BigInt
+  termStartTimestamp_lt: BigInt
+  termStartTimestamp_gte: BigInt
+  termStartTimestamp_lte: BigInt
+  termStartTimestamp_in: [BigInt!]
+  termStartTimestamp_not_in: [BigInt!]
+  termEndTimestamp: BigInt
+  termEndTimestamp_not: BigInt
+  termEndTimestamp_gt: BigInt
+  termEndTimestamp_lt: BigInt
+  termEndTimestamp_gte: BigInt
+  termEndTimestamp_lte: BigInt
+  termEndTimestamp_in: [BigInt!]
+  termEndTimestamp_not_in: [BigInt!]
+  tickSpacing: BigInt
+  tickSpacing_not: BigInt
+  tickSpacing_gt: BigInt
+  tickSpacing_lt: BigInt
+  tickSpacing_gte: BigInt
+  tickSpacing_lte: BigInt
+  tickSpacing_in: [BigInt!]
+  tickSpacing_not_in: [BigInt!]
+  sqrtPriceX96: BigInt
+  sqrtPriceX96_not: BigInt
+  sqrtPriceX96_gt: BigInt
+  sqrtPriceX96_lt: BigInt
+  sqrtPriceX96_gte: BigInt
+  sqrtPriceX96_lte: BigInt
+  sqrtPriceX96_in: [BigInt!]
+  sqrtPriceX96_not_in: [BigInt!]
+  liquidity: BigInt
+  liquidity_not: BigInt
+  liquidity_gt: BigInt
+  liquidity_lt: BigInt
+  liquidity_gte: BigInt
+  liquidity_lte: BigInt
+  liquidity_in: [BigInt!]
+  liquidity_not_in: [BigInt!]
+  tick: BigInt
+  tick_not: BigInt
+  tick_gt: BigInt
+  tick_lt: BigInt
+  tick_gte: BigInt
+  tick_lte: BigInt
+  tick_in: [BigInt!]
+  tick_not_in: [BigInt!]
+  txCount: BigInt
+  txCount_not: BigInt
+  txCount_gt: BigInt
+  txCount_lt: BigInt
+  txCount_gte: BigInt
+  txCount_lte: BigInt
+  txCount_in: [BigInt!]
+  txCount_not_in: [BigInt!]
+
+  """Filter for the block changed event."""
+  _change_block: BlockChangedFilter
+}
+
+enum AMM_orderBy {
+  id
+  createdTimestamp
+  updatedTimestamp
+  fcmAddress
+  marginEngineAddress
+  rateOracle
+  termStartTimestamp
+  termEndTimestamp
+  tickSpacing
+  sqrtPriceX96
+  liquidity
+  tick
+  txCount
+  mints
+  burns
+  swaps
+}
+
+scalar BigDecimal
+
+scalar BigInt
+
+input Block_height {
+  hash: Bytes
+  number: Int
+  number_gte: Int
+}
+
+input BlockChangedFilter {
+  number_gte: Int!
+}
+
+type Burn {
+  id: ID!
+  transaction: Transaction!
+  amm: AMM!
+  position: Position!
+  sender: String!
+  tickLower: Tick!
+  tickUpper: Tick!
+  amount: BigInt!
+}
+
+input Burn_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  transaction: String
+  transaction_not: String
+  transaction_gt: String
+  transaction_lt: String
+  transaction_gte: String
+  transaction_lte: String
+  transaction_in: [String!]
+  transaction_not_in: [String!]
+  transaction_contains: String
+  transaction_contains_nocase: String
+  transaction_not_contains: String
+  transaction_not_contains_nocase: String
+  transaction_starts_with: String
+  transaction_starts_with_nocase: String
+  transaction_not_starts_with: String
+  transaction_not_starts_with_nocase: String
+  transaction_ends_with: String
+  transaction_ends_with_nocase: String
+  transaction_not_ends_with: String
+  transaction_not_ends_with_nocase: String
+  amm: String
+  amm_not: String
+  amm_gt: String
+  amm_lt: String
+  amm_gte: String
+  amm_lte: String
+  amm_in: [String!]
+  amm_not_in: [String!]
+  amm_contains: String
+  amm_contains_nocase: String
+  amm_not_contains: String
+  amm_not_contains_nocase: String
+  amm_starts_with: String
+  amm_starts_with_nocase: String
+  amm_not_starts_with: String
+  amm_not_starts_with_nocase: String
+  amm_ends_with: String
+  amm_ends_with_nocase: String
+  amm_not_ends_with: String
+  amm_not_ends_with_nocase: String
+  position: String
+  position_not: String
+  position_gt: String
+  position_lt: String
+  position_gte: String
+  position_lte: String
+  position_in: [String!]
+  position_not_in: [String!]
+  position_contains: String
+  position_contains_nocase: String
+  position_not_contains: String
+  position_not_contains_nocase: String
+  position_starts_with: String
+  position_starts_with_nocase: String
+  position_not_starts_with: String
+  position_not_starts_with_nocase: String
+  position_ends_with: String
+  position_ends_with_nocase: String
+  position_not_ends_with: String
+  position_not_ends_with_nocase: String
+  sender: String
+  sender_not: String
+  sender_gt: String
+  sender_lt: String
+  sender_gte: String
+  sender_lte: String
+  sender_in: [String!]
+  sender_not_in: [String!]
+  sender_contains: String
+  sender_contains_nocase: String
+  sender_not_contains: String
+  sender_not_contains_nocase: String
+  sender_starts_with: String
+  sender_starts_with_nocase: String
+  sender_not_starts_with: String
+  sender_not_starts_with_nocase: String
+  sender_ends_with: String
+  sender_ends_with_nocase: String
+  sender_not_ends_with: String
+  sender_not_ends_with_nocase: String
+  tickLower: String
+  tickLower_not: String
+  tickLower_gt: String
+  tickLower_lt: String
+  tickLower_gte: String
+  tickLower_lte: String
+  tickLower_in: [String!]
+  tickLower_not_in: [String!]
+  tickLower_contains: String
+  tickLower_contains_nocase: String
+  tickLower_not_contains: String
+  tickLower_not_contains_nocase: String
+  tickLower_starts_with: String
+  tickLower_starts_with_nocase: String
+  tickLower_not_starts_with: String
+  tickLower_not_starts_with_nocase: String
+  tickLower_ends_with: String
+  tickLower_ends_with_nocase: String
+  tickLower_not_ends_with: String
+  tickLower_not_ends_with_nocase: String
+  tickUpper: String
+  tickUpper_not: String
+  tickUpper_gt: String
+  tickUpper_lt: String
+  tickUpper_gte: String
+  tickUpper_lte: String
+  tickUpper_in: [String!]
+  tickUpper_not_in: [String!]
+  tickUpper_contains: String
+  tickUpper_contains_nocase: String
+  tickUpper_not_contains: String
+  tickUpper_not_contains_nocase: String
+  tickUpper_starts_with: String
+  tickUpper_starts_with_nocase: String
+  tickUpper_not_starts_with: String
+  tickUpper_not_starts_with_nocase: String
+  tickUpper_ends_with: String
+  tickUpper_ends_with_nocase: String
+  tickUpper_not_ends_with: String
+  tickUpper_not_ends_with_nocase: String
+  amount: BigInt
+  amount_not: BigInt
+  amount_gt: BigInt
+  amount_lt: BigInt
+  amount_gte: BigInt
+  amount_lte: BigInt
+  amount_in: [BigInt!]
+  amount_not_in: [BigInt!]
+
+  """Filter for the block changed event."""
+  _change_block: BlockChangedFilter
+}
+
+enum Burn_orderBy {
+  id
+  transaction
+  amm
+  position
+  sender
+  tickLower
+  tickUpper
+  amount
+}
+
+scalar Bytes
+
+type Factory {
+  id: ID!
+  owner: ID!
+}
+
+input Factory_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  owner: ID
+  owner_not: ID
+  owner_gt: ID
+  owner_lt: ID
+  owner_gte: ID
+  owner_lte: ID
+  owner_in: [ID!]
+  owner_not_in: [ID!]
+
+  """Filter for the block changed event."""
+  _change_block: BlockChangedFilter
+}
+
+enum Factory_orderBy {
+  id
+  owner
+}
+
+type MarginEngine {
+  id: ID!
+  amm: AMM!
+}
+
+input MarginEngine_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  amm: String
+  amm_not: String
+  amm_gt: String
+  amm_lt: String
+  amm_gte: String
+  amm_lte: String
+  amm_in: [String!]
+  amm_not_in: [String!]
+  amm_contains: String
+  amm_contains_nocase: String
+  amm_not_contains: String
+  amm_not_contains_nocase: String
+  amm_starts_with: String
+  amm_starts_with_nocase: String
+  amm_not_starts_with: String
+  amm_not_starts_with_nocase: String
+  amm_ends_with: String
+  amm_ends_with_nocase: String
+  amm_not_ends_with: String
+  amm_not_ends_with_nocase: String
+
+  """Filter for the block changed event."""
+  _change_block: BlockChangedFilter
+}
+
+enum MarginEngine_orderBy {
+  id
+  amm
+}
+
+type Mint {
+  id: ID!
+  transaction: Transaction!
+  amm: AMM!
+  position: Position!
+  sender: String!
+  tickLower: Tick!
+  tickUpper: Tick!
+  amount: BigInt!
+}
+
+input Mint_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  transaction: String
+  transaction_not: String
+  transaction_gt: String
+  transaction_lt: String
+  transaction_gte: String
+  transaction_lte: String
+  transaction_in: [String!]
+  transaction_not_in: [String!]
+  transaction_contains: String
+  transaction_contains_nocase: String
+  transaction_not_contains: String
+  transaction_not_contains_nocase: String
+  transaction_starts_with: String
+  transaction_starts_with_nocase: String
+  transaction_not_starts_with: String
+  transaction_not_starts_with_nocase: String
+  transaction_ends_with: String
+  transaction_ends_with_nocase: String
+  transaction_not_ends_with: String
+  transaction_not_ends_with_nocase: String
+  amm: String
+  amm_not: String
+  amm_gt: String
+  amm_lt: String
+  amm_gte: String
+  amm_lte: String
+  amm_in: [String!]
+  amm_not_in: [String!]
+  amm_contains: String
+  amm_contains_nocase: String
+  amm_not_contains: String
+  amm_not_contains_nocase: String
+  amm_starts_with: String
+  amm_starts_with_nocase: String
+  amm_not_starts_with: String
+  amm_not_starts_with_nocase: String
+  amm_ends_with: String
+  amm_ends_with_nocase: String
+  amm_not_ends_with: String
+  amm_not_ends_with_nocase: String
+  position: String
+  position_not: String
+  position_gt: String
+  position_lt: String
+  position_gte: String
+  position_lte: String
+  position_in: [String!]
+  position_not_in: [String!]
+  position_contains: String
+  position_contains_nocase: String
+  position_not_contains: String
+  position_not_contains_nocase: String
+  position_starts_with: String
+  position_starts_with_nocase: String
+  position_not_starts_with: String
+  position_not_starts_with_nocase: String
+  position_ends_with: String
+  position_ends_with_nocase: String
+  position_not_ends_with: String
+  position_not_ends_with_nocase: String
+  sender: String
+  sender_not: String
+  sender_gt: String
+  sender_lt: String
+  sender_gte: String
+  sender_lte: String
+  sender_in: [String!]
+  sender_not_in: [String!]
+  sender_contains: String
+  sender_contains_nocase: String
+  sender_not_contains: String
+  sender_not_contains_nocase: String
+  sender_starts_with: String
+  sender_starts_with_nocase: String
+  sender_not_starts_with: String
+  sender_not_starts_with_nocase: String
+  sender_ends_with: String
+  sender_ends_with_nocase: String
+  sender_not_ends_with: String
+  sender_not_ends_with_nocase: String
+  tickLower: String
+  tickLower_not: String
+  tickLower_gt: String
+  tickLower_lt: String
+  tickLower_gte: String
+  tickLower_lte: String
+  tickLower_in: [String!]
+  tickLower_not_in: [String!]
+  tickLower_contains: String
+  tickLower_contains_nocase: String
+  tickLower_not_contains: String
+  tickLower_not_contains_nocase: String
+  tickLower_starts_with: String
+  tickLower_starts_with_nocase: String
+  tickLower_not_starts_with: String
+  tickLower_not_starts_with_nocase: String
+  tickLower_ends_with: String
+  tickLower_ends_with_nocase: String
+  tickLower_not_ends_with: String
+  tickLower_not_ends_with_nocase: String
+  tickUpper: String
+  tickUpper_not: String
+  tickUpper_gt: String
+  tickUpper_lt: String
+  tickUpper_gte: String
+  tickUpper_lte: String
+  tickUpper_in: [String!]
+  tickUpper_not_in: [String!]
+  tickUpper_contains: String
+  tickUpper_contains_nocase: String
+  tickUpper_not_contains: String
+  tickUpper_not_contains_nocase: String
+  tickUpper_starts_with: String
+  tickUpper_starts_with_nocase: String
+  tickUpper_not_starts_with: String
+  tickUpper_not_starts_with_nocase: String
+  tickUpper_ends_with: String
+  tickUpper_ends_with_nocase: String
+  tickUpper_not_ends_with: String
+  tickUpper_not_ends_with_nocase: String
+  amount: BigInt
+  amount_not: BigInt
+  amount_gt: BigInt
+  amount_lt: BigInt
+  amount_gte: BigInt
+  amount_lte: BigInt
+  amount_in: [BigInt!]
+  amount_not_in: [BigInt!]
+
+  """Filter for the block changed event."""
+  _change_block: BlockChangedFilter
+}
+
+enum Mint_orderBy {
+  id
+  transaction
+  amm
+  position
+  sender
+  tickLower
+  tickUpper
+  amount
+}
+
+"""Defines the order direction, either ascending or descending"""
+enum OrderDirection {
+  asc
+  desc
+}
+
+type Position {
+  id: ID!
+  createdTimestamp: BigInt!
+  updatedTimestamp: BigInt!
+  amm: AMM!
+  owner: Wallet!
+  tickLower: Tick!
+  tickUpper: Tick!
+  liquidity: BigInt!
+  margin: BigInt!
+  fixedTokenBalance: BigInt!
+  variableTokenBalance: BigInt!
+  isLiquidityProvider: Boolean!
+  isSettled: Boolean!
+  isEmpty: Boolean!
+  mints(skip: Int = 0, first: Int = 100, orderBy: Mint_orderBy, orderDirection: OrderDirection, where: Mint_filter): [Mint!]!
+  burns(skip: Int = 0, first: Int = 100, orderBy: Burn_orderBy, orderDirection: OrderDirection, where: Burn_filter): [Burn!]!
+  swaps(skip: Int = 0, first: Int = 100, orderBy: Swap_orderBy, orderDirection: OrderDirection, where: Swap_filter): [Swap!]!
+  snapshots(skip: Int = 0, first: Int = 100, orderBy: PositionSnapshot_orderBy, orderDirection: OrderDirection, where: PositionSnapshot_filter): [PositionSnapshot!]!
+  snapshotCount: BigInt!
+}
+
+input Position_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  createdTimestamp: BigInt
+  createdTimestamp_not: BigInt
+  createdTimestamp_gt: BigInt
+  createdTimestamp_lt: BigInt
+  createdTimestamp_gte: BigInt
+  createdTimestamp_lte: BigInt
+  createdTimestamp_in: [BigInt!]
+  createdTimestamp_not_in: [BigInt!]
+  updatedTimestamp: BigInt
+  updatedTimestamp_not: BigInt
+  updatedTimestamp_gt: BigInt
+  updatedTimestamp_lt: BigInt
+  updatedTimestamp_gte: BigInt
+  updatedTimestamp_lte: BigInt
+  updatedTimestamp_in: [BigInt!]
+  updatedTimestamp_not_in: [BigInt!]
+  amm: String
+  amm_not: String
+  amm_gt: String
+  amm_lt: String
+  amm_gte: String
+  amm_lte: String
+  amm_in: [String!]
+  amm_not_in: [String!]
+  amm_contains: String
+  amm_contains_nocase: String
+  amm_not_contains: String
+  amm_not_contains_nocase: String
+  amm_starts_with: String
+  amm_starts_with_nocase: String
+  amm_not_starts_with: String
+  amm_not_starts_with_nocase: String
+  amm_ends_with: String
+  amm_ends_with_nocase: String
+  amm_not_ends_with: String
+  amm_not_ends_with_nocase: String
+  owner: String
+  owner_not: String
+  owner_gt: String
+  owner_lt: String
+  owner_gte: String
+  owner_lte: String
+  owner_in: [String!]
+  owner_not_in: [String!]
+  owner_contains: String
+  owner_contains_nocase: String
+  owner_not_contains: String
+  owner_not_contains_nocase: String
+  owner_starts_with: String
+  owner_starts_with_nocase: String
+  owner_not_starts_with: String
+  owner_not_starts_with_nocase: String
+  owner_ends_with: String
+  owner_ends_with_nocase: String
+  owner_not_ends_with: String
+  owner_not_ends_with_nocase: String
+  tickLower: String
+  tickLower_not: String
+  tickLower_gt: String
+  tickLower_lt: String
+  tickLower_gte: String
+  tickLower_lte: String
+  tickLower_in: [String!]
+  tickLower_not_in: [String!]
+  tickLower_contains: String
+  tickLower_contains_nocase: String
+  tickLower_not_contains: String
+  tickLower_not_contains_nocase: String
+  tickLower_starts_with: String
+  tickLower_starts_with_nocase: String
+  tickLower_not_starts_with: String
+  tickLower_not_starts_with_nocase: String
+  tickLower_ends_with: String
+  tickLower_ends_with_nocase: String
+  tickLower_not_ends_with: String
+  tickLower_not_ends_with_nocase: String
+  tickUpper: String
+  tickUpper_not: String
+  tickUpper_gt: String
+  tickUpper_lt: String
+  tickUpper_gte: String
+  tickUpper_lte: String
+  tickUpper_in: [String!]
+  tickUpper_not_in: [String!]
+  tickUpper_contains: String
+  tickUpper_contains_nocase: String
+  tickUpper_not_contains: String
+  tickUpper_not_contains_nocase: String
+  tickUpper_starts_with: String
+  tickUpper_starts_with_nocase: String
+  tickUpper_not_starts_with: String
+  tickUpper_not_starts_with_nocase: String
+  tickUpper_ends_with: String
+  tickUpper_ends_with_nocase: String
+  tickUpper_not_ends_with: String
+  tickUpper_not_ends_with_nocase: String
+  liquidity: BigInt
+  liquidity_not: BigInt
+  liquidity_gt: BigInt
+  liquidity_lt: BigInt
+  liquidity_gte: BigInt
+  liquidity_lte: BigInt
+  liquidity_in: [BigInt!]
+  liquidity_not_in: [BigInt!]
+  margin: BigInt
+  margin_not: BigInt
+  margin_gt: BigInt
+  margin_lt: BigInt
+  margin_gte: BigInt
+  margin_lte: BigInt
+  margin_in: [BigInt!]
+  margin_not_in: [BigInt!]
+  fixedTokenBalance: BigInt
+  fixedTokenBalance_not: BigInt
+  fixedTokenBalance_gt: BigInt
+  fixedTokenBalance_lt: BigInt
+  fixedTokenBalance_gte: BigInt
+  fixedTokenBalance_lte: BigInt
+  fixedTokenBalance_in: [BigInt!]
+  fixedTokenBalance_not_in: [BigInt!]
+  variableTokenBalance: BigInt
+  variableTokenBalance_not: BigInt
+  variableTokenBalance_gt: BigInt
+  variableTokenBalance_lt: BigInt
+  variableTokenBalance_gte: BigInt
+  variableTokenBalance_lte: BigInt
+  variableTokenBalance_in: [BigInt!]
+  variableTokenBalance_not_in: [BigInt!]
+  isLiquidityProvider: Boolean
+  isLiquidityProvider_not: Boolean
+  isLiquidityProvider_in: [Boolean!]
+  isLiquidityProvider_not_in: [Boolean!]
+  isSettled: Boolean
+  isSettled_not: Boolean
+  isSettled_in: [Boolean!]
+  isSettled_not_in: [Boolean!]
+  isEmpty: Boolean
+  isEmpty_not: Boolean
+  isEmpty_in: [Boolean!]
+  isEmpty_not_in: [Boolean!]
+  snapshotCount: BigInt
+  snapshotCount_not: BigInt
+  snapshotCount_gt: BigInt
+  snapshotCount_lt: BigInt
+  snapshotCount_gte: BigInt
+  snapshotCount_lte: BigInt
+  snapshotCount_in: [BigInt!]
+  snapshotCount_not_in: [BigInt!]
+
+  """Filter for the block changed event."""
+  _change_block: BlockChangedFilter
+}
+
+enum Position_orderBy {
+  id
+  createdTimestamp
+  updatedTimestamp
+  amm
+  owner
+  tickLower
+  tickUpper
+  liquidity
+  margin
+  fixedTokenBalance
+  variableTokenBalance
+  isLiquidityProvider
+  isSettled
+  isEmpty
+  mints
+  burns
+  swaps
+  snapshots
+  snapshotCount
+}
+
+type PositionSnapshot {
+  id: ID!
+  createdTimestamp: BigInt!
+  position: Position!
+  liquidity: BigInt!
+  margin: BigInt!
+  fixedTokenBalance: BigInt!
+  variableTokenBalance: BigInt!
+  isSettled: Boolean!
+  isEmpty: Boolean!
+}
+
+input PositionSnapshot_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  createdTimestamp: BigInt
+  createdTimestamp_not: BigInt
+  createdTimestamp_gt: BigInt
+  createdTimestamp_lt: BigInt
+  createdTimestamp_gte: BigInt
+  createdTimestamp_lte: BigInt
+  createdTimestamp_in: [BigInt!]
+  createdTimestamp_not_in: [BigInt!]
+  position: String
+  position_not: String
+  position_gt: String
+  position_lt: String
+  position_gte: String
+  position_lte: String
+  position_in: [String!]
+  position_not_in: [String!]
+  position_contains: String
+  position_contains_nocase: String
+  position_not_contains: String
+  position_not_contains_nocase: String
+  position_starts_with: String
+  position_starts_with_nocase: String
+  position_not_starts_with: String
+  position_not_starts_with_nocase: String
+  position_ends_with: String
+  position_ends_with_nocase: String
+  position_not_ends_with: String
+  position_not_ends_with_nocase: String
+  liquidity: BigInt
+  liquidity_not: BigInt
+  liquidity_gt: BigInt
+  liquidity_lt: BigInt
+  liquidity_gte: BigInt
+  liquidity_lte: BigInt
+  liquidity_in: [BigInt!]
+  liquidity_not_in: [BigInt!]
+  margin: BigInt
+  margin_not: BigInt
+  margin_gt: BigInt
+  margin_lt: BigInt
+  margin_gte: BigInt
+  margin_lte: BigInt
+  margin_in: [BigInt!]
+  margin_not_in: [BigInt!]
+  fixedTokenBalance: BigInt
+  fixedTokenBalance_not: BigInt
+  fixedTokenBalance_gt: BigInt
+  fixedTokenBalance_lt: BigInt
+  fixedTokenBalance_gte: BigInt
+  fixedTokenBalance_lte: BigInt
+  fixedTokenBalance_in: [BigInt!]
+  fixedTokenBalance_not_in: [BigInt!]
+  variableTokenBalance: BigInt
+  variableTokenBalance_not: BigInt
+  variableTokenBalance_gt: BigInt
+  variableTokenBalance_lt: BigInt
+  variableTokenBalance_gte: BigInt
+  variableTokenBalance_lte: BigInt
+  variableTokenBalance_in: [BigInt!]
+  variableTokenBalance_not_in: [BigInt!]
+  isSettled: Boolean
+  isSettled_not: Boolean
+  isSettled_in: [Boolean!]
+  isSettled_not_in: [Boolean!]
+  isEmpty: Boolean
+  isEmpty_not: Boolean
+  isEmpty_in: [Boolean!]
+  isEmpty_not_in: [Boolean!]
+
+  """Filter for the block changed event."""
+  _change_block: BlockChangedFilter
+}
+
+enum PositionSnapshot_orderBy {
+  id
+  createdTimestamp
+  position
+  liquidity
+  margin
+  fixedTokenBalance
+  variableTokenBalance
+  isSettled
+  isEmpty
+}
+
+type Query {
+  factory(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): Factory
+  factories(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: Factory_orderBy
+    orderDirection: OrderDirection
+    where: Factory_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [Factory!]!
+  underlyingToken(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): UnderlyingToken
+  underlyingTokens(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: UnderlyingToken_orderBy
+    orderDirection: OrderDirection
+    where: UnderlyingToken_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [UnderlyingToken!]!
+  rateOracle(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): RateOracle
+  rateOracles(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: RateOracle_orderBy
+    orderDirection: OrderDirection
+    where: RateOracle_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [RateOracle!]!
+  amm(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): AMM
+  amms(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: AMM_orderBy
+    orderDirection: OrderDirection
+    where: AMM_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [AMM!]!
+  marginEngine(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): MarginEngine
+  marginEngines(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: MarginEngine_orderBy
+    orderDirection: OrderDirection
+    where: MarginEngine_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [MarginEngine!]!
+  tick(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): Tick
+  ticks(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: Tick_orderBy
+    orderDirection: OrderDirection
+    where: Tick_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [Tick!]!
+  wallet(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): Wallet
+  wallets(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: Wallet_orderBy
+    orderDirection: OrderDirection
+    where: Wallet_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [Wallet!]!
+  position(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): Position
+  positions(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: Position_orderBy
+    orderDirection: OrderDirection
+    where: Position_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [Position!]!
+  positionSnapshot(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): PositionSnapshot
+  positionSnapshots(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: PositionSnapshot_orderBy
+    orderDirection: OrderDirection
+    where: PositionSnapshot_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [PositionSnapshot!]!
+  transaction(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): Transaction
+  transactions(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: Transaction_orderBy
+    orderDirection: OrderDirection
+    where: Transaction_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [Transaction!]!
+  mint(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): Mint
+  mints(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: Mint_orderBy
+    orderDirection: OrderDirection
+    where: Mint_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [Mint!]!
+  burn(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): Burn
+  burns(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: Burn_orderBy
+    orderDirection: OrderDirection
+    where: Burn_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [Burn!]!
+  swap(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): Swap
+  swaps(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: Swap_orderBy
+    orderDirection: OrderDirection
+    where: Swap_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [Swap!]!
+
+  """Access to subgraph metadata"""
+  _meta(block: Block_height): _Meta_
+}
+
+type RateOracle {
+  id: ID!
+  protocolId: BigInt!
+  token: UnderlyingToken!
+}
+
+input RateOracle_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  protocolId: BigInt
+  protocolId_not: BigInt
+  protocolId_gt: BigInt
+  protocolId_lt: BigInt
+  protocolId_gte: BigInt
+  protocolId_lte: BigInt
+  protocolId_in: [BigInt!]
+  protocolId_not_in: [BigInt!]
+  token: String
+  token_not: String
+  token_gt: String
+  token_lt: String
+  token_gte: String
+  token_lte: String
+  token_in: [String!]
+  token_not_in: [String!]
+  token_contains: String
+  token_contains_nocase: String
+  token_not_contains: String
+  token_not_contains_nocase: String
+  token_starts_with: String
+  token_starts_with_nocase: String
+  token_not_starts_with: String
+  token_not_starts_with_nocase: String
+  token_ends_with: String
+  token_ends_with_nocase: String
+  token_not_ends_with: String
+  token_not_ends_with_nocase: String
+
+  """Filter for the block changed event."""
+  _change_block: BlockChangedFilter
+}
+
+enum RateOracle_orderBy {
+  id
+  protocolId
+  token
+}
+
+type Subscription {
+  factory(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): Factory
+  factories(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: Factory_orderBy
+    orderDirection: OrderDirection
+    where: Factory_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [Factory!]!
+  underlyingToken(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): UnderlyingToken
+  underlyingTokens(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: UnderlyingToken_orderBy
+    orderDirection: OrderDirection
+    where: UnderlyingToken_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [UnderlyingToken!]!
+  rateOracle(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): RateOracle
+  rateOracles(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: RateOracle_orderBy
+    orderDirection: OrderDirection
+    where: RateOracle_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [RateOracle!]!
+  amm(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): AMM
+  amms(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: AMM_orderBy
+    orderDirection: OrderDirection
+    where: AMM_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [AMM!]!
+  marginEngine(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): MarginEngine
+  marginEngines(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: MarginEngine_orderBy
+    orderDirection: OrderDirection
+    where: MarginEngine_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [MarginEngine!]!
+  tick(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): Tick
+  ticks(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: Tick_orderBy
+    orderDirection: OrderDirection
+    where: Tick_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [Tick!]!
+  wallet(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): Wallet
+  wallets(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: Wallet_orderBy
+    orderDirection: OrderDirection
+    where: Wallet_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [Wallet!]!
+  position(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): Position
+  positions(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: Position_orderBy
+    orderDirection: OrderDirection
+    where: Position_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [Position!]!
+  positionSnapshot(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): PositionSnapshot
+  positionSnapshots(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: PositionSnapshot_orderBy
+    orderDirection: OrderDirection
+    where: PositionSnapshot_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [PositionSnapshot!]!
+  transaction(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): Transaction
+  transactions(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: Transaction_orderBy
+    orderDirection: OrderDirection
+    where: Transaction_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [Transaction!]!
+  mint(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): Mint
+  mints(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: Mint_orderBy
+    orderDirection: OrderDirection
+    where: Mint_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [Mint!]!
+  burn(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): Burn
+  burns(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: Burn_orderBy
+    orderDirection: OrderDirection
+    where: Burn_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [Burn!]!
+  swap(
+    id: ID!
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): Swap
+  swaps(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: Swap_orderBy
+    orderDirection: OrderDirection
+    where: Swap_filter
+
+    """
+    The block at which the query should be executed. Can either be a `{ hash:
+    Bytes }` value containing a block hash, a `{ number: Int }` containing the
+    block number, or a `{ number_gte: Int }` containing the minimum block
+    number. In the case of `number_gte`, the query will be executed on the
+    latest block only if the subgraph has progressed to or past the minimum
+    block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [Swap!]!
+
+  """Access to subgraph metadata"""
+  _meta(block: Block_height): _Meta_
+}
+
+type Swap {
+  id: ID!
+  transaction: Transaction!
+  amm: AMM!
+  sender: String!
+  position: Position!
+  txIndex: BigInt!
+  sqrtPriceX96: BigInt!
+  liquidity: BigInt!
+  tick: BigInt!
+}
+
+input Swap_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  transaction: String
+  transaction_not: String
+  transaction_gt: String
+  transaction_lt: String
+  transaction_gte: String
+  transaction_lte: String
+  transaction_in: [String!]
+  transaction_not_in: [String!]
+  transaction_contains: String
+  transaction_contains_nocase: String
+  transaction_not_contains: String
+  transaction_not_contains_nocase: String
+  transaction_starts_with: String
+  transaction_starts_with_nocase: String
+  transaction_not_starts_with: String
+  transaction_not_starts_with_nocase: String
+  transaction_ends_with: String
+  transaction_ends_with_nocase: String
+  transaction_not_ends_with: String
+  transaction_not_ends_with_nocase: String
+  amm: String
+  amm_not: String
+  amm_gt: String
+  amm_lt: String
+  amm_gte: String
+  amm_lte: String
+  amm_in: [String!]
+  amm_not_in: [String!]
+  amm_contains: String
+  amm_contains_nocase: String
+  amm_not_contains: String
+  amm_not_contains_nocase: String
+  amm_starts_with: String
+  amm_starts_with_nocase: String
+  amm_not_starts_with: String
+  amm_not_starts_with_nocase: String
+  amm_ends_with: String
+  amm_ends_with_nocase: String
+  amm_not_ends_with: String
+  amm_not_ends_with_nocase: String
+  sender: String
+  sender_not: String
+  sender_gt: String
+  sender_lt: String
+  sender_gte: String
+  sender_lte: String
+  sender_in: [String!]
+  sender_not_in: [String!]
+  sender_contains: String
+  sender_contains_nocase: String
+  sender_not_contains: String
+  sender_not_contains_nocase: String
+  sender_starts_with: String
+  sender_starts_with_nocase: String
+  sender_not_starts_with: String
+  sender_not_starts_with_nocase: String
+  sender_ends_with: String
+  sender_ends_with_nocase: String
+  sender_not_ends_with: String
+  sender_not_ends_with_nocase: String
+  position: String
+  position_not: String
+  position_gt: String
+  position_lt: String
+  position_gte: String
+  position_lte: String
+  position_in: [String!]
+  position_not_in: [String!]
+  position_contains: String
+  position_contains_nocase: String
+  position_not_contains: String
+  position_not_contains_nocase: String
+  position_starts_with: String
+  position_starts_with_nocase: String
+  position_not_starts_with: String
+  position_not_starts_with_nocase: String
+  position_ends_with: String
+  position_ends_with_nocase: String
+  position_not_ends_with: String
+  position_not_ends_with_nocase: String
+  txIndex: BigInt
+  txIndex_not: BigInt
+  txIndex_gt: BigInt
+  txIndex_lt: BigInt
+  txIndex_gte: BigInt
+  txIndex_lte: BigInt
+  txIndex_in: [BigInt!]
+  txIndex_not_in: [BigInt!]
+  sqrtPriceX96: BigInt
+  sqrtPriceX96_not: BigInt
+  sqrtPriceX96_gt: BigInt
+  sqrtPriceX96_lt: BigInt
+  sqrtPriceX96_gte: BigInt
+  sqrtPriceX96_lte: BigInt
+  sqrtPriceX96_in: [BigInt!]
+  sqrtPriceX96_not_in: [BigInt!]
+  liquidity: BigInt
+  liquidity_not: BigInt
+  liquidity_gt: BigInt
+  liquidity_lt: BigInt
+  liquidity_gte: BigInt
+  liquidity_lte: BigInt
+  liquidity_in: [BigInt!]
+  liquidity_not_in: [BigInt!]
+  tick: BigInt
+  tick_not: BigInt
+  tick_gt: BigInt
+  tick_lt: BigInt
+  tick_gte: BigInt
+  tick_lte: BigInt
+  tick_in: [BigInt!]
+  tick_not_in: [BigInt!]
+
+  """Filter for the block changed event."""
+  _change_block: BlockChangedFilter
+}
+
+enum Swap_orderBy {
+  id
+  transaction
+  amm
+  sender
+  position
+  txIndex
+  sqrtPriceX96
+  liquidity
+  tick
+}
+
+type Tick {
+  id: ID!
+  amm: AMM!
+  value: BigInt!
+}
+
+input Tick_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  amm: String
+  amm_not: String
+  amm_gt: String
+  amm_lt: String
+  amm_gte: String
+  amm_lte: String
+  amm_in: [String!]
+  amm_not_in: [String!]
+  amm_contains: String
+  amm_contains_nocase: String
+  amm_not_contains: String
+  amm_not_contains_nocase: String
+  amm_starts_with: String
+  amm_starts_with_nocase: String
+  amm_not_starts_with: String
+  amm_not_starts_with_nocase: String
+  amm_ends_with: String
+  amm_ends_with_nocase: String
+  amm_not_ends_with: String
+  amm_not_ends_with_nocase: String
+  value: BigInt
+  value_not: BigInt
+  value_gt: BigInt
+  value_lt: BigInt
+  value_gte: BigInt
+  value_lte: BigInt
+  value_in: [BigInt!]
+  value_not_in: [BigInt!]
+
+  """Filter for the block changed event."""
+  _change_block: BlockChangedFilter
+}
+
+enum Tick_orderBy {
+  id
+  amm
+  value
+}
+
+type Transaction {
+  id: ID!
+  blockNumber: BigInt!
+  timestamp: BigInt!
+  gasPrice: BigInt!
+  mints(skip: Int = 0, first: Int = 100, orderBy: Mint_orderBy, orderDirection: OrderDirection, where: Mint_filter): [Mint!]!
+  burns(skip: Int = 0, first: Int = 100, orderBy: Burn_orderBy, orderDirection: OrderDirection, where: Burn_filter): [Burn!]!
+  swaps(skip: Int = 0, first: Int = 100, orderBy: Swap_orderBy, orderDirection: OrderDirection, where: Swap_filter): [Swap!]!
+}
+
+input Transaction_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  blockNumber: BigInt
+  blockNumber_not: BigInt
+  blockNumber_gt: BigInt
+  blockNumber_lt: BigInt
+  blockNumber_gte: BigInt
+  blockNumber_lte: BigInt
+  blockNumber_in: [BigInt!]
+  blockNumber_not_in: [BigInt!]
+  timestamp: BigInt
+  timestamp_not: BigInt
+  timestamp_gt: BigInt
+  timestamp_lt: BigInt
+  timestamp_gte: BigInt
+  timestamp_lte: BigInt
+  timestamp_in: [BigInt!]
+  timestamp_not_in: [BigInt!]
+  gasPrice: BigInt
+  gasPrice_not: BigInt
+  gasPrice_gt: BigInt
+  gasPrice_lt: BigInt
+  gasPrice_gte: BigInt
+  gasPrice_lte: BigInt
+  gasPrice_in: [BigInt!]
+  gasPrice_not_in: [BigInt!]
+
+  """Filter for the block changed event."""
+  _change_block: BlockChangedFilter
+}
+
+enum Transaction_orderBy {
+  id
+  blockNumber
+  timestamp
+  gasPrice
+  mints
+  burns
+  swaps
+}
+
+type UnderlyingToken {
+  id: ID!
+  name: String!
+  decimals: BigInt!
+}
+
+input UnderlyingToken_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  name: String
+  name_not: String
+  name_gt: String
+  name_lt: String
+  name_gte: String
+  name_lte: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_contains: String
+  name_contains_nocase: String
+  name_not_contains: String
+  name_not_contains_nocase: String
+  name_starts_with: String
+  name_starts_with_nocase: String
+  name_not_starts_with: String
+  name_not_starts_with_nocase: String
+  name_ends_with: String
+  name_ends_with_nocase: String
+  name_not_ends_with: String
+  name_not_ends_with_nocase: String
+  decimals: BigInt
+  decimals_not: BigInt
+  decimals_gt: BigInt
+  decimals_lt: BigInt
+  decimals_gte: BigInt
+  decimals_lte: BigInt
+  decimals_in: [BigInt!]
+  decimals_not_in: [BigInt!]
+
+  """Filter for the block changed event."""
+  _change_block: BlockChangedFilter
+}
+
+enum UnderlyingToken_orderBy {
+  id
+  name
+  decimals
+}
+
+type Wallet {
+  id: ID!
+  positions(skip: Int = 0, first: Int = 100, orderBy: Position_orderBy, orderDirection: OrderDirection, where: Position_filter): [Position!]!
+  positionCount: BigInt!
+}
+
+input Wallet_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  positionCount: BigInt
+  positionCount_not: BigInt
+  positionCount_gt: BigInt
+  positionCount_lt: BigInt
+  positionCount_gte: BigInt
+  positionCount_lte: BigInt
+  positionCount_in: [BigInt!]
+  positionCount_not_in: [BigInt!]
+
+  """Filter for the block changed event."""
+  _change_block: BlockChangedFilter
+}
+
+enum Wallet_orderBy {
+  id
+  positions
+  positionCount
+}
+

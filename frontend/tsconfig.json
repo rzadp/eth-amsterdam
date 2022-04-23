@@ -1,5 +1,8 @@
 {
   "extends": "../tsconfig.json",
+  "exclude": [
+    "**/generated/*"
+  ],
   "compilerOptions": {
     "lib": [
       "es6",
@@ -8,6 +11,7 @@
       "esnext"
     ],
     "jsx": "react-jsx",
-    "noEmit": true
+    "noEmit": true,
+    "baseUrl": "."
   }
 }

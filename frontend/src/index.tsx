@@ -18,15 +18,15 @@ const config: Config = {
 }
 
 const client = new ApolloClient({
-  uri: 'https://48p1r2roz4.sse.codesandbox.io',
+  uri: 'https://api.thegraph.com/subgraphs/name/voltzprotocol/v1',
   cache: new InMemoryCache()
 });
 
 ReactDOM.render(
-  <ApolloProvider client={client}>
     <DAppProvider config={config}>
-      <App />
-    </DAppProvider>
-  </ApolloProvider>,
+      <ApolloProvider client={client}>
+        <App />
+      </ApolloProvider>
+    </DAppProvider>,
   document.getElementById('root')
 )
