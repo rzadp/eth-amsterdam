@@ -25,28 +25,18 @@ export function App() {
         ? <>
           <button onClick={() => {
             send({
-              owner: '0x0000000000000000000000000000000000000000',
-              fixedLow: 1,
-              fixedHigh: 2
+              owner,
+              fixedLow,
+              fixedHigh
             })
-          }}>
-            Liquidate something
-          </button>
+          }}>Liquidate example</button>
           {state.status !== 'None' && state.status}
         </>
         : <button onClick={activateBrowserWallet}>Connect Wallet</button>
       }
 
       {threshold.value && <div>Example Liquidation threshold: {threshold.value?.toString()}</div>}
-      <button onClick={() => {
-        send({
-          owner,
-          fixedLow,
-          fixedHigh
-        })
-      }}>Liquidate example</button>
-      {state.status !== 'None' && state.status}
-
+      
       {positions.map((position) => (
         <div key={position.id}>
           <div>{position.id}</div>
