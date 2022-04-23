@@ -1,1 +1,1 @@
-export const DELEGATOR_PK = ""
+export const CHANNEL_PK = ""

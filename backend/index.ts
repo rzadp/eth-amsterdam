@@ -2,13 +2,13 @@ import express, { Express, Request, Response } from 'express'
 import dotenv from 'dotenv'
 import EpnsSDK from "@epnsproject/backend-sdk-staging";
 import {sendNotification} from "./notifications";
-import {DELEGATOR_PK} from "./config";
+import {CHANNEL_PK} from "./config";
 
 dotenv.config()
 
 const app: Express = express()
 const port = 8080
-const epnsSdk = new EpnsSDK(DELEGATOR_PK);
+const epnsSdk = new EpnsSDK(CHANNEL_PK);
 
 app.get('/', (req: Request, res: Response) => {
     res.send('Express + TypeScript Server')
