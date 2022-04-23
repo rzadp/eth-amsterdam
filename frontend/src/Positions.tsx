@@ -1,8 +1,8 @@
 import React from 'react'
 import { useEthers } from '@usedapp/core'
-import { useLiquidationFunction, useLiquidationThreshold, usePositions } from 'src/hooks'
+import { useLiquidationFunction, useLiquidationThreshold, usePositions } from './hooks'
 import { useWallets } from './provider/WalletsProvider';
-import { Button } from 'src/components'
+import { Button } from './components'
 
 // EXAMPLE:
 const owner = '0x0000007f0b0a5e509e1c56687110b171d483fdf1'

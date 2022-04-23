@@ -1,13 +1,13 @@
 import { createGlobalStyle } from 'styled-components'
 
-import GSRegular from 'src/fonts/GeneralSans-Regular.woff'
-import GSRegular2 from 'src/fonts/GeneralSans-Regular.woff2'
-import GSBold from 'src/fonts/GeneralSans-Bold.woff'
-import GSBold2 from 'src/fonts/GeneralSans-Bold.woff2'
-import GSItalic from 'src/fonts/GeneralSans-Italic.woff'
-import GSItalic2 from 'src/fonts/GeneralSans-Italic.woff2'
-import GSBoldItalic from 'src/fonts/GeneralSans-BoldItalic.woff'
-import GSBoldItalic2 from 'src/fonts/GeneralSans-BoldItalic.woff2'
+import GSRegular from '../fonts/GeneralSans-Regular.woff'
+import GSRegular2 from '../fonts/GeneralSans-Regular.woff2'
+import GSBold from '../fonts/GeneralSans-Bold.woff'
+import GSBold2 from '../fonts/GeneralSans-Bold.woff2'
+import GSItalic from '../fonts/GeneralSans-Italic.woff'
+import GSItalic2 from '../fonts/GeneralSans-Italic.woff2'
+import GSBoldItalic from '../fonts/GeneralSans-BoldItalic.woff'
+import GSBoldItalic2 from '../fonts/GeneralSans-BoldItalic.woff2'
 
 export const FontStyles = createGlobalStyle`
   @font-face {

@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { COLORS } from 'src/styles/colors'
+import { COLORS } from '../styles/colors'
 
 export const NotificationWrapper = styled.div`
   display: flex;
