@@ -1,6 +1,6 @@
 import { useEthers } from '@usedapp/core'
 import React from 'react'
-import { useLiquidationFunction } from './useLiquidationFunction'
+import { useLiquidationFunction } from './hooks/useLiquidationFunction'
 
 import { usePositions } from './hooks/usePositions'
 
