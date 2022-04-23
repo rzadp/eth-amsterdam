@@ -2,13 +2,14 @@ import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 import { getPositions } from "./src/getPositions";
 import EpnsSDK from "@epnsproject/backend-sdk-staging";
-import { sendNotification } from "./notifications";
+import { sendNotification } from "./src/notifications";
 import { CHANNEL_PK } from "./config";
 
 dotenv.config();
 
 const app: Express = express();
 const port = 8080;
+
 const epnsSdk = new EpnsSDK(CHANNEL_PK);
 
 app.get("/", async (req: Request, res: Response) => {
