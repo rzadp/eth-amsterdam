@@ -36,5 +36,6 @@ export const FontStyles = createGlobalStyle`
   
   body {
     font-family: 'General-Sans', sans-serif;
+    margin: 0;
   }
 `

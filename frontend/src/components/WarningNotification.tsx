@@ -7,7 +7,7 @@ import { DismissButton } from './DismissButton'
 
 export interface WarningNotificationProps {
   children: ReactNode,
-  onAction: () => void,
+  onAction?: () => void,
   buttonText: string,
   onDismiss: () => void,
 }
@@ -16,7 +16,7 @@ export function WarningNotification ({ children, onAction, buttonText, onDismiss
   return (
     <Notification>
       {children}
-      <ActionButton onClick={onAction} theme="light">{buttonText}</ActionButton>
+      {onAction && <ActionButton onClick={onAction} theme="light">{buttonText}</ActionButton>}
       <DismissButton onClick={onDismiss}>x</DismissButton>
     </Notification>
   )

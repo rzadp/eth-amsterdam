@@ -53,7 +53,7 @@ app.get("/epns/get-users", async (req: Request, res: Response) => {
 });
 
 app.listen(port, async () => {
-  console.log(`⚡️[server]: Server is running at https://localhost:${port}`);
+  console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
 
   const response = await getPositions();
   console.log(response);
