@@ -5,5 +5,8 @@ export const COLORS = {
   primary500: '#8247E5',
   disabledDark: '#E2E4E8',
   disabledLight: '#EEEFF2',
-  shadow: '#DCD4FF',
+  primaryFocus: '#DCD4FF',
+  warning500: '#FFAD0D',
+  warning400: '#FFC749',
+  warning100: '#FFF5CE',
 }

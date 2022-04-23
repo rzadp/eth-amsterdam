@@ -26,6 +26,6 @@ export const Button = styled.button<ButtonProps>`
   
   &:focus {
     background-color: ${props => props.theme === 'light' ? COLORS.white :COLORS.primary500};
-    box-shadow: 0px 2px 2px -1px rgba(0, 0, 0, 0.12), 0px 0px 0px 3px ${COLORS.shadow};
+    box-shadow: 0px 2px 2px -1px rgba(0, 0, 0, 0.12), 0px 0px 0px 3px ${COLORS.primaryFocus};
   }
 `

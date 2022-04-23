@@ -9,5 +9,7 @@ export const NotificationWrapper = styled.div`
   align-items: center;
   padding: 12px 16px;
   color: ${COLORS.white};
+  font-weight: bold;
   border-radius: 8px;
+  box-shadow: 0px 4px 5px -1px rgba(0, 0, 0, 0.1);
 `
