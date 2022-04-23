@@ -1,11 +1,13 @@
 import { useMemo } from 'react'
 
-import { useGetPositionsQuery } from '../generated/v1Graphql'
+import { useGetPositionsQuery } from 'src/generated/v1Graphql'
+import { SUBGRAPH_URL } from 'src/consts'
+
 import { useRefetchOnNewBlock } from './useRefetchOnBlock'
 
 export function usePositions () {
   const { data, loading, refetch } = useGetPositionsQuery({
-    context: { subgraph: 'https://api.thegraph.com/subgraphs/name/voltzprotocol/v1' },
+    context: { subgraph: SUBGRAPH_URL },
   })
 
   const positions = useMemo(() => {

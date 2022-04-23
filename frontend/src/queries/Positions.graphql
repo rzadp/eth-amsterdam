@@ -4,6 +4,10 @@ fragment PositionFragment on Position {
   tickUpper { value }
   margin
   owner { id }
+  amm {
+    id
+    marginEngineAddress
+  }
 }
 
 query getPositions {

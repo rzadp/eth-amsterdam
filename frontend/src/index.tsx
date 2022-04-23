@@ -9,6 +9,7 @@ import {
 } from '@apollo/client'
 
 import { App } from './App'
+import { SUBGRAPH_URL } from './consts'
 
 const config: Config = {
   readOnlyChainId: Kovan.chainId,
@@ -18,7 +19,7 @@ const config: Config = {
 }
 
 const client = new ApolloClient({
-  uri: 'https://api.thegraph.com/subgraphs/name/voltzprotocol/v1',
+  uri: SUBGRAPH_URL,
   cache: new InMemoryCache()
 });
 
