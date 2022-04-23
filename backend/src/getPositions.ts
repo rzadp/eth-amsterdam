@@ -1,14 +1,17 @@
-import { Position, PositionWithRequirement } from "types/Position";
+import { Position } from "types/Position";
 import { getMarginRequirement } from "./getMarginRequirement";
 import { fetchPositions } from "./fetchGraphPositions";
+import { addStats } from "./addStats";
+import { PositionsStore } from "./PositionsStore";
 
-export async function getPositions() {
-  let positions: PositionWithRequirement[] = [];
-
+export async function getPositions(positionsStore: PositionsStore) {
   const graphPositions = await fetchPositions();
+
+  console.log(`Trying to getPositions`);
 
   for (const graphqlPosition of graphPositions) {
     const position: Position = {
+      id: graphPositions.id,
       owner: graphqlPosition.owner.id,
       tickLower: graphqlPosition.tickLower.value,
       tickUpper: graphqlPosition.tickUpper.value,
@@ -17,7 +20,10 @@ export async function getPositions() {
     };
     const marginRequirement = await getMarginRequirement(position);
 
-    positions.push({ ...position, marginRequirement });
+    console.log(`Updating position with id: ${position.id}`);
+
+    positionsStore.addOrUpdatePosition(
+      addStats({ ...position, marginRequirement })
+    );
   }
-  return positions;
 }
