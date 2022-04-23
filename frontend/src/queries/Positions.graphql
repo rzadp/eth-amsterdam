@@ -11,7 +11,7 @@ fragment PositionFragment on Position {
 }
 
 query getPositions {
-  positions {
+  positions (skip: 1000) {
     ...PositionFragment
   }
 }
