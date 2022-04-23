@@ -14,7 +14,7 @@ import { SUBGRAPH_URL } from './consts'
 const config: Config = {
   readOnlyChainId: Kovan.chainId,
   readOnlyUrls: {
-    [Kovan.chainId]: getDefaultProvider('kovan'),
+    [Kovan.chainId]: 'https://kovan.infura.io/v3/007740c0a57f4c7199135b074abf0e07',
   },
 }
 
