@@ -14,7 +14,9 @@ export const useLiquidationThreshold = ({owner, tickLower, tickUpper, marginEngi
     contract,
     method: 'getPositionMarginRequirement',
     args: [
-      owner, tickLower, tickUpper,
+      owner,
+      tickLower,
+      tickUpper,
       false // _isLM
     ]
   }
