@@ -4,7 +4,11 @@ import { fetchPositions } from "./fetchGraphPositions";
 import { addStats } from "./addStats";
 import { PositionsStore } from "./PositionsStore";
 
+let inProgress = false;
+
 export async function getPositions(positionsStore: PositionsStore) {
+  if (inProgress) return;
+  inProgress = true;
   const graphPositions = await fetchPositions();
 
   console.log(`Trying to getPositions`);
@@ -26,4 +30,6 @@ export async function getPositions(positionsStore: PositionsStore) {
       addStats({ ...position, marginRequirement })
     );
   }
+
+  inProgress = false;
 }

@@ -51,7 +51,7 @@ app.get("/topWatched", async (req: Request, res: Response) => {
 app.listen(port, async () => {
   console.log(`⚡️[server]: Server is running at https://localhost:${port}`);
 
-  getPositions(positionsStore);
+  await getPositions(positionsStore);
 
   setInterval(getPositions, UPDATE_INTERVAL, positionsStore);
 });
