@@ -1,3 +1,4 @@
+import React from 'react'
 import {createContext, ReactNode, useCallback, useContext, useEffect, useState} from "react";
 import {useEthers} from "@usedapp/core";
 import {initializeWeb3Auth} from "./helpers/Web3Auth";
