@@ -1,6 +1,5 @@
-import { Config, DAppProvider, Kovan } from '@usedapp/core'
-import { getDefaultProvider } from 'ethers'
 import React from 'react'
+import { Config, DAppProvider, Kovan } from '@usedapp/core'
 import ReactDOM from 'react-dom'
 import {
   ApolloClient,
