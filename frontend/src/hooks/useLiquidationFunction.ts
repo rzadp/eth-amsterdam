@@ -1,6 +1,6 @@
 import { utils } from 'ethers'
 import { Contract } from '@ethersproject/contracts'
-import MarginEngine from '../../voltz-core/deployments/kovan/MarginEngine.json'
+import MarginEngine from '../../../voltz-core/deployments/kovan/MarginEngine.json'
 import { useContractFunction } from '@usedapp/core'
 
 const KovanMasterMarginEngine = '0x82ea0a9c578042154188d635d9c0e2e13ff6e846'

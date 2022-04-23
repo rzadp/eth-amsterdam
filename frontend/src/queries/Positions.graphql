@@ -1,0 +1,17 @@
+fragment PositionFragment on Position {
+  id
+  tickLower { value }
+  tickUpper { value }
+  margin
+  owner { id }
+  amm {
+    id
+    marginEngineAddress
+  }
+}
+
+query getPositions {
+  positions {
+    ...PositionFragment
+  }
+}
