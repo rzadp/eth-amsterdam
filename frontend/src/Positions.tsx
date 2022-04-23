@@ -1,9 +1,7 @@
 import React from 'react'
 import { useEthers } from '@usedapp/core'
-import { useLiquidationFunction } from './hooks/useLiquidationFunction'
-import { useLiquidationThreshold } from './hooks/useLiquidationThreshold'
-import { usePositions } from './hooks/usePositions'
-import {useWallets} from "./provider/WalletsProvider";
+import { useLiquidationFunction, useLiquidationThreshold, usePositions } from './hooks'
+import { useWallets } from './provider/WalletsProvider';
 
 // EXAMPLE:
 const owner = '0x0000007f0b0a5e509e1c56687110b171d483fdf1'
@@ -13,8 +11,8 @@ const marginEngineAddress = '0xdcf2d0e379c29f67df42f6b720591ae66da48e3c'
 
 export function Positions() {
   const { positions } = usePositions()
-  const {send, state} = useLiquidationFunction(marginEngineAddress)
-  const {account} = useEthers()
+  const { send, state } = useLiquidationFunction(marginEngineAddress)
+  const { account } = useEthers()
 
   const {
     activateBrowserWallet,
