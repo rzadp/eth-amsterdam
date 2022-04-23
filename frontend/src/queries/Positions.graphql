@@ -1,13 +1,13 @@
 fragment PositionFragment on Position {
-    id
-    tickLower { value }
-    tickUpper { value }
-    margin
-    owner { id }
+  id
+  tickLower { value }
+  tickUpper { value }
+  margin
+  owner { id }
 }
 
 query getPositions {
-    positions {
-        ...PositionFragment
-    }
+  positions {
+    ...PositionFragment
+  }
 }

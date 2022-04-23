@@ -7,9 +7,15 @@ import React from 'react'
 import { usePositions } from './hooks/usePositions'
 
 export function App() {
-  const { positions, isLoading } = usePositions()
-  console.log(positions)
+  const { positions } = usePositions()
   return (
-    <div>Hello World</div>
+    <div>
+      {positions.map((position) => (
+        <div key={position.id}>
+          <div>{position.id}</div>
+          <div>{position.margin}</div>
+        </div>
+      ))}
+    </div>
   )
 }
