@@ -14,6 +14,7 @@
   "dependencies": {
     "@apollo/client": "^3.5.10",
     "@epnsproject/frontend-sdk-staging": "^1.7.4",
+    "@parcel/transformer-raw": "^2.5.0",
     "@usedapp/core": "^1.0.0",
     "@web3auth/openlogin-adapter": "^0.9.3",
     "@web3auth/web3auth": "^0.9.3",

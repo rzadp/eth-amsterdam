@@ -9,7 +9,8 @@ import {
 
 import { App } from './App'
 import { SUBGRAPH_URL } from './consts'
-import {WalletsProvider} from "./provider/WalletsProvider";
+import {WalletsProvider} from './provider/WalletsProvider'
+import { FontStyles } from './styles/fonts'
 
 const config: Config = {
   readOnlyChainId: Kovan.chainId,
@@ -27,6 +28,7 @@ ReactDOM.render(
     <DAppProvider config={config}>
       <ApolloProvider client={client}>
           <WalletsProvider>
+            <FontStyles />
             <App />
           </WalletsProvider>
       </ApolloProvider>
