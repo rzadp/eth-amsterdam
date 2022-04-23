@@ -5,9 +5,8 @@ import MarginEngine from '../../../voltz-core/deployments/kovan/MarginEngine.jso
 
 const marginEngineInterface = new utils.Interface(MarginEngine.abi)
 
-export const useMarginEngine = (marginEngineAddress: string | undefined): Contract | undefined => {
+export const useMarginEngine = (marginEngineAddress: string): Contract => {
   return useMemo(() => {
-    if (marginEngineAddress === undefined) return undefined
     return new Contract(marginEngineAddress, marginEngineInterface)
   }, [marginEngineAddress])
 }

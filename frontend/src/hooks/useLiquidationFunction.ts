@@ -11,7 +11,7 @@ export const useLiquidationFunction = (marginEngineAddress: string) => {
   const contract = useMarginEngine(marginEngineAddress)
 
   const { state, send } = useContractFunction(
-    contract!,
+    contract,
     'liquidatePosition',
     { transactionName: 'liquidatePosition' }
   )

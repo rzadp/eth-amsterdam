@@ -10,7 +10,7 @@ export interface useLiquidationThresholdProps {
 
 export const useLiquidationThreshold = ({owner, tickLower, tickUpper, marginEngineAddress}: useLiquidationThresholdProps) => {
   const contract = useMarginEngine(marginEngineAddress)
-  const call: Call | undefined = contract && {
+  const call: Call = {
     contract,
     method: 'getPositionMarginRequirement',
     args: [
