@@ -15,7 +15,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: "16.x"
-      - run: yarn install --frozen-lockfile
+      - run: yarn install --frozen-lockfile --ignore-platform
       - run: yarn build
         working-directory: frontend
   test-backend:
@@ -28,6 +28,6 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: "16.x"
-      - run: yarn install --frozen-lockfile
+      - run: yarn install --frozen-lockfile --ignore-platform
       - run: yarn build
         working-directory: backend
