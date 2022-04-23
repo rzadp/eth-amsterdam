@@ -1,7 +1,8 @@
 import React from 'react'
 import { useEthers } from '@usedapp/core'
-import { useLiquidationFunction, useLiquidationThreshold, usePositions } from './hooks'
+import { useLiquidationFunction, useLiquidationThreshold, usePositions } from 'src/hooks'
 import { useWallets } from './provider/WalletsProvider';
+import { Button } from 'src/components'
 
 // EXAMPLE:
 const owner = '0x0000007f0b0a5e509e1c56687110b171d483fdf1'
@@ -43,8 +44,8 @@ export function Positions() {
             {state.status !== 'None' && state.status}
           </>
           : (<div>
-            <button onClick={activateBrowserWallet}>Connect Metamask</button>
-            <button onClick={activateWeb3AuthWallet}>Connect Web3Auth</button>
+            <Button onClick={activateBrowserWallet}>Connect Metamask</Button>
+            <Button onClick={activateWeb3AuthWallet}>Connect Web3Auth</Button>
           </div>)
       }
 
