@@ -15,6 +15,8 @@
     "@apollo/client": "^3.5.10",
     "@epnsproject/frontend-sdk-staging": "^1.7.4",
     "@usedapp/core": "^1.0.0",
+    "@web3auth/openlogin-adapter": "^0.9.3",
+    "@web3auth/web3auth": "^0.9.3",
     "epns-frontend-sdk-staging": "^2.1.0",
     "ethers": "^5.6.4",
     "graphql": "^16.3.0",
