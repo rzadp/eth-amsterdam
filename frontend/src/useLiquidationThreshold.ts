@@ -1,15 +1,17 @@
 import { Call, useCall } from "@usedapp/core";
-import { masterEngine } from "./masterEngine";
+import { useMarginEngine } from "./marginEngine";
 
 export interface useLiquidationThresholdProps {
+  marginEngineAddress: string
   owner: string,
   tickLower: number,
   tickUpper: number
 }
 
-export const useLiquidationThreshold = ({owner, tickLower, tickUpper}: useLiquidationThresholdProps) => {
+export const useLiquidationThreshold = ({owner, tickLower, tickUpper, marginEngineAddress}: useLiquidationThresholdProps) => {
+  const contract = useMarginEngine(marginEngineAddress)
   const call: Call = {
-    contract: masterEngine,
+    contract,
     method: 'getPositionMarginRequirement',
     args: [
       owner, tickLower, tickUpper,
@@ -17,5 +19,5 @@ export const useLiquidationThreshold = ({owner, tickLower, tickUpper}: useLiquid
     ]
   }
 
-  return useCall(call)
+  return useCall(contract && call)
 }
