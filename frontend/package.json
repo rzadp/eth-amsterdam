@@ -7,7 +7,7 @@
     "dev": "parcel ./src/index.html --open",
     "start": "yarn dev",
     "prebuild": "rm -rf build",
-    "build": "parcel build --public-url ./ ./src/index.html",
+    "build": "yarn codegen:graphql && parcel build --public-url ./ ./src/index.html",
     "schemaUpdate": "get-graphql-schema https://api.thegraph.com/subgraphs/name/voltzprotocol/v1 > ./src/queries/v1.graphql",
     "codegen:graphql": "graphql-codegen --config codegen.yml"
   },
