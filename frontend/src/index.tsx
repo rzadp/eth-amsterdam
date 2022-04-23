@@ -10,6 +10,7 @@ import {
 
 import { App } from './App'
 import { SUBGRAPH_URL } from './consts'
+import {WalletsProvider} from "./provider/WalletsProvider";
 
 const config: Config = {
   readOnlyChainId: Kovan.chainId,
@@ -26,7 +27,9 @@ const client = new ApolloClient({
 ReactDOM.render(
     <DAppProvider config={config}>
       <ApolloProvider client={client}>
-        <App />
+          <WalletsProvider>
+            <App />
+          </WalletsProvider>
       </ApolloProvider>
     </DAppProvider>,
   document.getElementById('root')
