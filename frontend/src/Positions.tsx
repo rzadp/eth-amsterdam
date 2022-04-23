@@ -17,6 +17,7 @@ export function Positions() {
 
   const {
     activateBrowserWallet,
+    activateWalletConnect,
     activateWeb3AuthWallet,
     deactivateWallet
   } = useWallets();
@@ -46,6 +47,7 @@ export function Positions() {
           : (<div>
             <Button onClick={activateBrowserWallet}>Connect Metamask</Button>
             <Button onClick={activateWeb3AuthWallet}>Connect Web3Auth</Button>
+            <Button onClick={activateWalletConnect}>Connect WalletConnect</Button>
           </div>)
       }
 
