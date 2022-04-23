@@ -1,5 +1,5 @@
-import React from 'react'
 import { useEthers } from '@usedapp/core'
+import React from 'react'
 import { useLiquidationFunction } from './hooks/useLiquidationFunction'
 import { useLiquidationThreshold } from './hooks/useLiquidationThreshold'
 import { usePositions } from './hooks/usePositions'
@@ -12,8 +12,8 @@ const marginEngineAddress = '0xdcf2d0e379c29f67df42f6b720591ae66da48e3c'
 
 export function App() {
   const { positions } = usePositions()
-  const {account, activateBrowserWallet} = useEthers()
   const {send, state} = useLiquidationFunction(marginEngineAddress)
+  const {account, activateBrowserWallet} = useEthers()
 
   const threshold = useLiquidationThreshold({owner, tickLower: fixedLow, tickUpper: fixedHigh, marginEngineAddress})
   if (threshold === undefined) return 'Loading...'
@@ -23,19 +23,20 @@ export function App() {
     <div>
       {account
         ? <>
+          {threshold.value && <div>Example Liquidation threshold: {threshold.value?.toString()}</div>}
           <button onClick={() => {
             send({
               owner,
               fixedLow,
               fixedHigh
             })
-          }}>Liquidate example</button>
+          }}>
+            Liquidate something
+          </button>
           {state.status !== 'None' && state.status}
         </>
         : <button onClick={activateBrowserWallet}>Connect Wallet</button>
       }
-
-      {threshold.value && <div>Example Liquidation threshold: {threshold.value?.toString()}</div>}
       
       {positions.map((position) => (
         <div key={position.id}>
