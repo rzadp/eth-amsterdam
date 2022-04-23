@@ -18,6 +18,7 @@ export const Button = styled.button<ButtonProps>`
   background-color: ${props => props.theme === 'light' ? COLORS.white : COLORS.primary500};
   color: ${props => props.theme === 'light' ? COLORS.primary500 : COLORS.white};
   font-weight: bold;
+  cursor: pointer;
 
   &:hover {
     background-color: ${props => props.theme === 'light' ? COLORS.primary100 :COLORS.primary400};
