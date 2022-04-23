@@ -14,6 +14,3 @@ export function sendNotification(sdk: NotificationHelper, notificationConfig: No
         null, // leave as null
     );
 }
-
-
-

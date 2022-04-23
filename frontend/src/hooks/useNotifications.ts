@@ -1,21 +1,33 @@
 import { api, utils } from "@epnsproject/frontend-sdk-staging";
-import {useAsync} from "react-async";
+import { useEffect, useState } from "react";
 
-export function useNotifications (walletAddress: string) {
-    const { data, error, isPending, run } = useAsync(() => fetchNotifications(walletAddress), [])
-    return { data, error, isPending, run }
-}
+const readSeen = () => JSON.parse(localStorage.getItem('epns-seen') ?? '[]')
 
-export async function fetchNotifications(walletAddress: string) {
-    const {count, results} = await api.fetchNotifications(walletAddress)
-    console.log("Notifications count:", count)
-    console.log({results});
-    //fetch the notifications
+export function useNotifications(walletAddress: string) {
+  const [notifications, setNotifications] = useState<any[]>([])
+  const [seen, setSeen] = useState<any[]>(readSeen)
 
+  const fetchNotifications = async () => {
+    const { results } = await api.fetchNotifications(walletAddress)
+    const parsedNotifications = utils.parseApiResponse(results);
 
-    //parse the notification fetched
-    const parsedResponse = utils.parseApiResponse(results);
-    console.log(parsedResponse);
+    setNotifications(parsedNotifications.map(notification => {
+      const onClick = () => {
+        setSeen(oldSeen => {
+          const newSeen = [...oldSeen, notification.sid]
+          localStorage.setItem('epns-seen', JSON.stringify(newSeen))
+          return newSeen
+        })
+      }
+      return {...notification, onClick}
+    }))
+  }
 
-    return parsedResponse
+  useEffect(() => {
+    fetchNotifications().catch(console.error)
+    const intervalId = setInterval(fetchNotifications, 2000)
+    return () => clearInterval(intervalId)
+  }, [walletAddress])
+
+  return notifications.filter(notification => !seen.includes(notification.sid))
 }
