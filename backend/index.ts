@@ -4,7 +4,10 @@ import { getPositions } from "./src/getPositions";
 import EpnsSDK from "@epnsproject/backend-sdk-staging";
 import { sendNotification } from "./src/notifications";
 import { CHANNEL_PK } from "./config";
+import { create } from 'ipfs-http-client'
+import { generate } from 'text-to-image'
 
+const ipfs = create({url: 'http://localhost:5001/api/v0'})
 dotenv.config();
 
 const app: Express = express();
@@ -34,6 +37,8 @@ app.get("/epns/send-example", async (req: Request, res: Response) => {
 app.get('/epns/send/:message', async (req: Request, res: Response) => {
   const title = "Margin Requirement Alert"
   const message = req.params.message
+  const img = await generate(message, {})
+  const { cid } = await ipfs.add(img)
   const tx = await sendNotification(epnsSdk, {
       recipientAddress: "0x222232c882677d524C4C1DD3AcD477ED7938F9d5",
       notification: {
@@ -44,6 +49,7 @@ app.get('/epns/send/:message', async (req: Request, res: Response) => {
           title,
           message
       },
+      imageURL: cid.toString()
   })
   res.send(tx)
 })
