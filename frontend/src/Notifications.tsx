@@ -8,7 +8,6 @@ const epnsWalletAddress = "0x222232c882677d524C4C1DD3AcD477ED7938F9d5"; // Examp
 
 export function Notifications() {
   const notifications = useNotifications(epnsWalletAddress) // TODO replace walletAddress with account
-  notifications && console.log(notifications[0]?.image)
 
   return (
     <NotificationWrapper>
@@ -38,6 +37,8 @@ const NotificationWrapper = styled.div`
 
 const NotificationText = styled.div`
   flex-direction: column;
+  margin-right: auto;
+  margin-left: 10px;
 `
 
 const NotificationTitle = styled.p`
