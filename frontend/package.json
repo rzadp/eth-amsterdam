@@ -16,7 +16,7 @@
     "@epnsproject/frontend-sdk-staging": "^1.7.4",
     "@parcel/transformer-raw": "^2.5.0",
     "@usedapp/core": "^1.0.0",
-    "@walletconnect/ethereum-provider": "^1.7.7",
+    "@web3-react/walletlink-connector": "^6.2.14",
     "@web3-react/walletconnect-connector": "^6.2.13",
     "@web3auth/openlogin-adapter": "^0.9.3",
     "@web3auth/web3auth": "^0.9.3",

@@ -22,7 +22,6 @@ export function initializeWalletConnect() {
 
     const deactivateWallet = useCallback(() => {
         localStorage.removeItem("walletconnect");
-        deactivate();
     }, [deactivate]);
 
     return {activateWallet, deactivateWallet}
