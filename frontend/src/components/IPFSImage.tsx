@@ -12,7 +12,6 @@ export const IPFSImage = ({cid}: {cid: string}) => {
     (async () => {
       const result = await ipfs.get(cid)
       for await (const dataArray of result) {
-        console.log({dataArray})
         const data = Buffer.from(dataArray).toString()
         const baseImg = data.substring(data.indexOf(startString))
         setImg(baseImg)
