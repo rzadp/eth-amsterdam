@@ -20,31 +20,9 @@ const port = 8081;
 
 const epnsSdk = new EpnsSDK(CHANNEL_PK);
 
-const positionsStore = new PositionsStore(console.log);
-
-app.get("/", async (req: Request, res: Response) => {
-  res.send("Express + TypeScript Server");
-});
-
-app.get("/epns/send-example", async (req: Request, res: Response) => {
-  const tx = await sendNotification(epnsSdk, {
-    recipientAddress: "0x222232c882677d524C4C1DD3AcD477ED7938F9d5",
-    notification: {
-      title: "Duck Title",
-      message: "Duck Message",
-    },
-    pushNotification: {
-      title: "Push Duck Title",
-      message: "Push DUck Message",
-    },
-  });
-  res.send(tx);
-});
-
-app.get('/epns/send/:message', async (req: Request, res: Response) => {
+const notify = async (message: string, imgText: string) => {
   const title = "Margin Requirement Alert"
-  const message = req.params.message
-  const img = await generate(message, { maxWidth: 100, fontSize: 15 })
+  const img = await generate(imgText, { maxWidth: 100, fontSize: 15 })
   const { cid } = await ipfs.add(img)
   const tx = await sendNotification(epnsSdk, {
       recipientAddress: "0x222232c882677d524C4C1DD3AcD477ED7938F9d5",
@@ -58,7 +36,18 @@ app.get('/epns/send/:message', async (req: Request, res: Response) => {
       },
       imageURL: cid.toString()
   })
-  res.send(tx)
+  return tx
+}
+
+const positionsStore = new PositionsStore(notify);
+
+app.get("/", async (req: Request, res: Response) => {
+  res.send("Express + TypeScript Server");
+});
+
+app.get('/epns/send/:message', async (req: Request, res: Response) => {
+  const message = req.params.message
+  res.send(await notify(message, 'image'))
 })
 
 app.get("/epns/get-users", async (req: Request, res: Response) => {

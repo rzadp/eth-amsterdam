@@ -7,7 +7,7 @@ export class PositionsStore {
   private topWatched: PositionStats[];
   private trackedPositions: { [id: string]: PositionStats };
 
-  constructor(private notify: (msg: string) => void) {
+  constructor(private notify: (msg: string, imgText: string) => void | Promise<void>) {
     this.topWatched = [];
     this.trackedPositions = {};
   }
@@ -28,7 +28,7 @@ export class PositionsStore {
     }
 
     if (Object.keys(this.trackedPositions).length === NOTIFICATION_THRESHOLD) {
-      this.notify("INITIAL 10 top watched - NOTIFICATION");
+      // this.notify("INITIAL 10 top watched positions", "-");
     }
   }
 
@@ -48,15 +48,12 @@ export class PositionsStore {
 
     if (this.topWatched.length === this.WATCHED_NUMBER) {
       this.topWatched.pop();
-      if (Object.keys(this.trackedPositions).length > NOTIFICATION_THRESHOLD) {
-        this.notify("Popping top watched - NOTIFICATION");
-      }
     }
 
     this.topWatched.push(position);
     this.topWatched.sort(comparePositions);
     if (Object.keys(this.trackedPositions).length > NOTIFICATION_THRESHOLD) {
-      this.notify("New position in top watched - NOTIFICATION");
+      this.notify(`Watching position: ${position.id}`, position.marginAbs.toString());
     }
   }
 }
