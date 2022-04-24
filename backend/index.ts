@@ -1,9 +1,12 @@
 import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 import { getPositions } from "./src/getPositions";
+import { PositionsStore } from "./src/PositionsStore";
 import EpnsSDK from "@epnsproject/backend-sdk-staging";
 import { sendNotification } from "./src/notifications";
 import { CHANNEL_PK } from "./config";
+
+const UPDATE_INTERVAL = 5 * 60 * 1000;
 
 dotenv.config();
 
@@ -11,6 +14,8 @@ const app: Express = express();
 const port = 8080;
 
 const epnsSdk = new EpnsSDK(CHANNEL_PK);
+
+const positionsStore = new PositionsStore(console.log);
 
 app.get("/", async (req: Request, res: Response) => {
   res.send("Express + TypeScript Server");
@@ -52,9 +57,14 @@ app.get("/epns/get-users", async (req: Request, res: Response) => {
   res.send(await epnsSdk.getSubscribedUsers());
 });
 
+app.get("/topWatched", async (req: Request, res: Response) => {
+  res.send(positionsStore.getTopWatched());
+});
+
 app.listen(port, async () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
 
-  const response = await getPositions();
-  console.log(response);
+  await getPositions(positionsStore);
+
+  setInterval(getPositions, UPDATE_INTERVAL, positionsStore);
 });

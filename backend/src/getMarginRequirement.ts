@@ -4,7 +4,7 @@ import MarginEngine from "../../voltz-core/deployments/kovan/MarginEngine.json";
 
 const marginEngineInterface = new utils.Interface(MarginEngine.abi);
 
-export const getMarginRequirement = async (position: any) => {
+export const getMarginRequirement = async (position: any): Promise<number> => {
   const contract = new Contract(
     position.marginEngineAddress,
     marginEngineInterface,
@@ -20,9 +20,5 @@ export const getMarginRequirement = async (position: any) => {
       false // _isLM
     );
 
-  console.log(
-    `Fetched marginRequirement: ${marginRequirement} for ${position}`
-  );
-
-  return marginRequirement;
+  return marginRequirement.toNumber();
 };

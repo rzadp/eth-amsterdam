@@ -1,6 +1,6 @@
 {
   "extends": "../tsconfig.json",
-  "include": ["src", "index.ts, config.ts"],
+  "include": ["src", "types", "index.ts, config.ts"],
   "compilerOptions": {
     "target": "es2017",
     "lib": ["esnext"],
