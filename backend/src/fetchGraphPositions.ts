@@ -28,7 +28,5 @@ export async function fetchPositions() {
 
   const response = await client.request(query);
 
-  console.log(`Positions fetched: ${response.positions}`);
-
   return response.positions;
 }

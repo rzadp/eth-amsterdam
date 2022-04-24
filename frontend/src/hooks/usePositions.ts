@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 
-import { useGetPositionsQuery } from 'src/generated/v1Graphql'
-import { SUBGRAPH_URL } from 'src/consts'
+import { useGetPositionsQuery } from '../generated/v1Graphql'
+import { SUBGRAPH_URL } from '../consts'
 
 import { useRefetchOnNewBlock } from './useRefetchOnBlock'
 
