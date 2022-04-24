@@ -1,11 +1,12 @@
 import { Call, useCall } from "@usedapp/core";
 import { useMarginEngine } from "./useMarginEngine";
+import { BigNumber } from 'ethers'
 
 export interface useLiquidationThresholdProps {
   marginEngineAddress: string
   owner: string,
-  tickLower: number,
-  tickUpper: number
+  tickLower: BigNumber,
+  tickUpper: BigNumber,
 }
 
 export const useLiquidationThreshold = ({owner, tickLower, tickUpper, marginEngineAddress}: useLiquidationThresholdProps) => {

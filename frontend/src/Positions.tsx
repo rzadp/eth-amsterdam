@@ -1,8 +1,10 @@
 import React from 'react'
+import styled from 'styled-components'
 import { useEthers } from '@usedapp/core'
-import { useLiquidationFunction, useLiquidationThreshold, usePositions } from './hooks'
+
+import { useLiquidationFunction, usePositions } from 'src/hooks'
 import { useWallets } from './provider/WalletsProvider';
-import { Button } from './components'
+import { Button, Position } from 'src/components'
 
 // EXAMPLE:
 const owner = '0x0000007f0b0a5e509e1c56687110b171d483fdf1'
@@ -23,17 +25,12 @@ export function Positions() {
     deactivateWallet
   } = useWallets();
 
-  const threshold = useLiquidationThreshold({owner, tickLower: fixedLow, tickUpper: fixedHigh, marginEngineAddress})
-  if (threshold === undefined) return <>'Loading...'</>
-  if (threshold.error) throw threshold.error
-
   return (
     <div>
       {account
           ? <>
             <h3>Account: {account}</h3>
             <button onClick={deactivateWallet}>Disconnect Wallet</button>
-            {threshold.value && <div>Example Liquidation threshold: {threshold.value?.toString()}</div>}
             <button onClick={() => {
               send({
                 owner,
@@ -52,13 +49,35 @@ export function Positions() {
             <Button onClick={activateWalletLink}>Connect Coinbase Wallet</Button>
           </div>)
       }
+      <PositionsTable>
+        <thead>
+          <tr>
+            <TableHeaderItem>Owner</TableHeaderItem>
+            <TableHeaderItem>Lower tick</TableHeaderItem>
+            <TableHeaderItem>Upper tick</TableHeaderItem>
+            <TableHeaderItem>Margin</TableHeaderItem>
+            <TableHeaderItem>Threshold</TableHeaderItem>
+            <TableHeaderItem>Margin buffer</TableHeaderItem>
+          </tr>
+        </thead>
 
-      {positions.map((position) => (
-          <div key={position.id}>
-            <div>{position.id}</div>
-            <div>{position.margin}</div>
-          </div>
-      ))}
+        <tbody>
+          {positions.map((position) => (
+            <Position key={position.id} position={position}/>
+          ))}
+        </tbody>
+      </PositionsTable>
     </div>
   )
 }
+
+const PositionsTable = styled.table`
+  margin: 10px 20px 80px;
+  width: calc(100% - 40px);
+  border-collapse: collapse;
+`
+
+const TableHeaderItem = styled.th`
+  font-weight: normal;
+  text-align: left;
+`
