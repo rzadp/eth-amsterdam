@@ -51,6 +51,7 @@ module.exports = {
     stats: 'errors-only',
     overlay: true,
     hot: true,
+    port: 8082
   },
   node: {
     fs: 'empty',

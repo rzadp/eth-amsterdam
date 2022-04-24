@@ -14,7 +14,7 @@ const UPDATE_INTERVAL = 5 * 60 * 1000;
 dotenv.config();
 
 const app: Express = express();
-const port = 8080;
+const port = 8081;
 
 const epnsSdk = new EpnsSDK(CHANNEL_PK);
 
