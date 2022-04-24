@@ -8,7 +8,6 @@ export interface PositionProps {
   position: Position,
 }
 
-// margin - threshold = margin buffer
 // margin buffer < 0   ===>  can liquidate
 // margin buffer small ===> warning, red alert
 
@@ -29,7 +28,7 @@ export function Position ({ position }: PositionProps) {
       <TableElement>{position.tickUpper.toString()}</TableElement>
       <TableElement>{position.margin.toString()}</TableElement>
       <TableElement>{threshold?.value.toString() || <div />}</TableElement>
-      <RowLastElement>{marginBuffer?.toString() || <div />}</RowLastElement>
+      <RowLastElement isRisky={position.isRisky}>{marginBuffer?.toString() || <div />}</RowLastElement>
     </>
   )
 }
@@ -58,4 +57,5 @@ const Address = styled(TableElement)`
 const RowLastElement = styled(TableElement)`
   border-top-right-radius: 12px;
   border-bottom-right-radius: 12px;
+  color: ${props => props.isRisky ? COLORS.red500 : COLORS.green500}
 `
