@@ -2,5 +2,11 @@
 
 ## Development
 
-1. Run `ipfs` locally
-2. `yarn start:dev`
+1. Run `ipfs` locally:
+
+```bash
+ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '["*"]'
+ipfs daemon
+```
+
+3. `yarn start:dev`
