@@ -5,6 +5,7 @@
 1. Run `ipfs` locally:
 
 ```bash
+ipfs init
 ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '["*"]'
 ipfs daemon
 ```
