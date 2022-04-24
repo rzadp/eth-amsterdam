@@ -11,10 +11,6 @@ import { useLiquidationFunction, usePositions } from './hooks'
 import { useWallets } from './provider/WalletsProvider';
 import { Button, Position } from './components'
 
-// EXAMPLE:
-const owner = '0x0000007f0b0a5e509e1c56687110b171d483fdf1'
-const fixedLow = -47100
-const fixedHigh = -23040
 const marginEngineAddress = '0xdcf2d0e379c29f67df42f6b720591ae66da48e3c'
 
 export function Positions() {
@@ -39,24 +35,15 @@ export function Positions() {
               <Button onClick={() => library?.getSigner().signMessage('Hello World')}>Sign me</Button>
               <Button onClick={deactivateWallet}>Disconnect Wallet</Button>
             </ButtonsWrapper>
-            {/* <button onClick={() => {
-              send({
-                owner,
-                fixedLow,
-                fixedHigh
-              })
-            }}>
-              Liquidate something
-            </button> */}
             {state.status !== 'None' && state.status}
           </>
           : (<>
             <CenteredHeader>Connect With:</CenteredHeader>
             <ButtonsWrapper>
-              <Button onClick={activateBrowserWallet}><Img src={MetaMask}></Img>&nbsp;Metamask</Button>
-              <Button onClick={activateWeb3AuthWallet}><Img src={W3auth}></Img>&nbsp;Web3Auth</Button>
-              <Button onClick={activateWalletConnect}><Img src={WConnect}></Img>&nbsp;WalletConnect</Button>
-              <Button onClick={activateWalletLink}><Img src={Coinbase}></Img>&nbsp;Coinbase Wallet</Button>
+              <Button onClick={activateBrowserWallet}><Img src={MetaMask} />&nbsp;Metamask</Button>
+              <Button onClick={activateWeb3AuthWallet}><Img src={W3auth} />&nbsp;Web3Auth</Button>
+              <Button onClick={activateWalletConnect}><Img src={WConnect} />&nbsp;WalletConnect</Button>
+              <Button onClick={activateWalletLink}><Img src={Coinbase} />&nbsp;Coinbase Wallet</Button>
             </ButtonsWrapper>
             <br/>
           </>)

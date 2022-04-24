@@ -9,9 +9,6 @@ export interface PositionProps {
   position: Position,
 }
 
-// margin buffer < 0   ===>  can liquidate
-// margin buffer small ===> warning, red alert
-
 export function Position ({ position }: PositionProps) {
   const threshold = useLiquidationThreshold({
     owner: position.owner,
