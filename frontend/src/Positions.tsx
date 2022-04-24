@@ -32,7 +32,7 @@ export function Positions() {
           ? <>
             <h3>Account: {account}</h3>
             <ButtonsWrapper>
-              <Button onClick={() => library?.getSigner().signMessage('Hello World')}>Sign me</Button>
+              {/* <Button onClick={async () => alert(await library?.getSigner().signMessage('Hello World'))}>Sign me</Button> */}
               <Button onClick={deactivateWallet}>Disconnect Wallet</Button>
             </ButtonsWrapper>
             {state.status !== 'None' && state.status}
