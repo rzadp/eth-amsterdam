@@ -13,6 +13,7 @@ export interface InfoNotificationProps {
 export function InfoNotification ({ children, onDismiss }: InfoNotificationProps) {
   return (
     <Notification>
+
       {children}
       <DismissButton onClick={onDismiss}>x</DismissButton>
     </Notification>
@@ -21,9 +22,4 @@ export function InfoNotification ({ children, onDismiss }: InfoNotificationProps
 
 const Notification = styled(NotificationWrapper)`
   background-color: ${COLORS.primary500};
-`
-
-const ActionButton = styled(Button)`
-  margin-left: auto;
-  margin-right: 10px;
 `
