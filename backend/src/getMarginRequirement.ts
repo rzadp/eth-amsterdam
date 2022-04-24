@@ -20,9 +20,5 @@ export const getMarginRequirement = async (position: any): Promise<number> => {
       false // _isLM
     );
 
-  console.log(
-    `Fetched marginRequirement: ${marginRequirement} for ${position}`
-  );
-
   return marginRequirement.toNumber();
 };

@@ -11,11 +11,9 @@ export async function getPositions(positionsStore: PositionsStore) {
   inProgress = true;
   const graphPositions = await fetchPositions();
 
-  console.log(`Trying to getPositions`);
-
   for (const graphqlPosition of graphPositions) {
     const position: Position = {
-      id: graphPositions.id,
+      id: graphqlPosition.id,
       owner: graphqlPosition.owner.id,
       tickLower: graphqlPosition.tickLower.value,
       tickUpper: graphqlPosition.tickUpper.value,
@@ -23,8 +21,6 @@ export async function getPositions(positionsStore: PositionsStore) {
       marginEngineAddress: graphqlPosition.amm.marginEngineAddress,
     };
     const marginRequirement = await getMarginRequirement(position);
-
-    console.log(`Updating position with id: ${position.id}`);
 
     positionsStore.addOrUpdatePosition(
       addStats({ ...position, marginRequirement })
