@@ -51,8 +51,7 @@ export function Positions() {
       }
       <PositionsTable>
         <TableHeaderItem>Owner</TableHeaderItem>
-        <TableHeaderItem>Lower tick</TableHeaderItem>
-        <TableHeaderItem>Upper tick</TableHeaderItem>
+        <TableHeaderItem>Lower tick / Upper tick</TableHeaderItem>
         <TableHeaderItem>Margin</TableHeaderItem>
         <TableHeaderItem>Threshold</TableHeaderItem>
         <TableHeaderItem>Margin buffer</TableHeaderItem>
@@ -69,7 +68,7 @@ const PositionsTable = styled.div`
   margin: 10px 20px 80px;
   width: calc(100% - 40px);
   display: grid;
-  grid-template-columns: auto auto auto auto auto auto;
+  grid-template-columns: auto auto auto auto auto;
    row-gap: 20px;
 `
 

@@ -24,8 +24,7 @@ export function Position ({ position }: PositionProps) {
   return (
     <>
       <Address>{shortenAddress(position.owner)}</Address>
-      <TableElement>{position.tickLower.toString()}</TableElement>
-      <TableElement>{position.tickUpper.toString()}</TableElement>
+      <TableElement>{position.tickLower.toString()} / {position.tickUpper.toString()}</TableElement>
       <TableElement>{position.margin.toString()}</TableElement>
       <TableElement>{threshold?.value.toString() || <div />}</TableElement>
       <RowLastElement isRisky={position.isRisky}>{marginBuffer?.toString() || <div />}</RowLastElement>
