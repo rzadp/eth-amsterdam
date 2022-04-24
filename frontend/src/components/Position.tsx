@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 import { Position, useLiquidationThreshold } from '../hooks'
 import { COLORS } from '../styles/colors'
+import { Button } from './Button'
 
 export interface PositionProps {
   position: Position,
@@ -27,7 +28,10 @@ export function Position ({ position }: PositionProps) {
       <TableElement>{position.tickLower.toString()} / {position.tickUpper.toString()}</TableElement>
       <TableElement>{position.margin.toString()}</TableElement>
       <TableElement>{threshold?.value.toString() || <div />}</TableElement>
-      <RowLastElement isRisky={position.isRisky}>{marginBuffer?.toString() || <div />}</RowLastElement>
+      <Buffer isRisky={position.isRisky}>{marginBuffer?.toString() || <div />}</Buffer>
+      <RowLastElement>
+        <Button disabled>Liquidate</Button>
+      </RowLastElement>
     </>
   )
 }
@@ -53,8 +57,11 @@ const Address = styled(TableElement)`
   padding-left: 5px;
 `
 
+const Buffer = styled(TableElement)`
+  color: ${props => props.isRisky ? COLORS.red500 : COLORS.green500}
+`
+
 const RowLastElement = styled(TableElement)`
   border-top-right-radius: 12px;
   border-bottom-right-radius: 12px;
-  color: ${props => props.isRisky ? COLORS.red500 : COLORS.green500}
 `

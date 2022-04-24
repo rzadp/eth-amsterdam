@@ -55,6 +55,7 @@ export function Positions() {
         <TableHeaderItem>Margin</TableHeaderItem>
         <TableHeaderItem>Threshold</TableHeaderItem>
         <TableHeaderItem>Margin buffer</TableHeaderItem>
+        <TableHeaderItem />
 
       {positions.map((position) => (
         <Position key={position.id} position={position}/>
@@ -68,7 +69,7 @@ const PositionsTable = styled.div`
   margin: 10px 20px 80px;
   width: calc(100% - 40px);
   display: grid;
-  grid-template-columns: auto auto auto auto auto;
+  grid-template-columns: auto auto auto auto auto auto;
    row-gap: 20px;
 `
 
