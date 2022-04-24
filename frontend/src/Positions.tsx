@@ -2,6 +2,11 @@ import React from 'react'
 import styled from 'styled-components'
 import { useEthers } from '@usedapp/core'
 
+import MetaMask from './images/metamask.png'
+import Coinbase from './images/coinbase.png'
+import WConnect from './images/walletConnect.png'
+import W3auth from './images/web3auth.jpeg'
+
 import { useLiquidationFunction, usePositions } from './hooks'
 import { useWallets } from './provider/WalletsProvider';
 import { Button, Position } from './components'
@@ -15,7 +20,7 @@ const marginEngineAddress = '0xdcf2d0e379c29f67df42f6b720591ae66da48e3c'
 export function Positions() {
   const { positions } = usePositions()
   const { send, state } = useLiquidationFunction(marginEngineAddress)
-  const { account } = useEthers()
+  const { account, library } = useEthers()
 
   const {
     activateBrowserWallet,
@@ -30,8 +35,11 @@ export function Positions() {
       {account
           ? <>
             <h3>Account: {account}</h3>
-            <button onClick={deactivateWallet}>Disconnect Wallet</button>
-            <button onClick={() => {
+            <ButtonsWrapper>
+              <Button onClick={() => library?.getSigner().signMessage('Hello World')}>Sign me</Button>
+              <Button onClick={deactivateWallet}>Disconnect Wallet</Button>
+            </ButtonsWrapper>
+            {/* <button onClick={() => {
               send({
                 owner,
                 fixedLow,
@@ -39,15 +47,19 @@ export function Positions() {
               })
             }}>
               Liquidate something
-            </button>
+            </button> */}
             {state.status !== 'None' && state.status}
           </>
-          : (<div>
-            <Button onClick={activateBrowserWallet}>Connect Metamask</Button>
-            <Button onClick={activateWeb3AuthWallet}>Connect Web3Auth</Button>
-            <Button onClick={activateWalletConnect}>Connect WalletConnect</Button>
-            <Button onClick={activateWalletLink}>Connect Coinbase Wallet</Button>
-          </div>)
+          : (<>
+            <CenteredHeader>Connect With:</CenteredHeader>
+            <ButtonsWrapper>
+              <Button onClick={activateBrowserWallet}><Img src={MetaMask}></Img>&nbsp;Metamask</Button>
+              <Button onClick={activateWeb3AuthWallet}><Img src={W3auth}></Img>&nbsp;Web3Auth</Button>
+              <Button onClick={activateWalletConnect}><Img src={WConnect}></Img>&nbsp;WalletConnect</Button>
+              <Button onClick={activateWalletLink}><Img src={Coinbase}></Img>&nbsp;Coinbase Wallet</Button>
+            </ButtonsWrapper>
+            <br/>
+          </>)
       }
       <PositionsTable>
         <TableHeaderItem>Owner</TableHeaderItem>
@@ -65,6 +77,15 @@ export function Positions() {
   )
 }
 
+const Img = styled.img`
+  width: 18px;
+  height: 18px;
+`
+
+const CenteredHeader = styled.h2`
+  text-align: center;
+`
+
 const PositionsTable = styled.div`
   margin: 10px 20px 80px;
   width: calc(100% - 40px);
@@ -76,4 +97,11 @@ const PositionsTable = styled.div`
 const TableHeaderItem = styled.div`
   font-weight: normal;
   text-align: left;
+`
+
+const ButtonsWrapper = styled.div`
+  display: flex;
+  justify-content: space-around;
+  margin-top: 10px;
+  margin-bottom: 20px;
 `
