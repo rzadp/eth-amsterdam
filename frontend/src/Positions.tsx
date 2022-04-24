@@ -2,9 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 import { useEthers } from '@usedapp/core'
 
-import { useLiquidationFunction, usePositions } from 'src/hooks'
+import { useLiquidationFunction, usePositions } from './hooks'
 import { useWallets } from './provider/WalletsProvider';
-import { Button, Position } from 'src/components'
+import { Button, Position } from './components'
 
 // EXAMPLE:
 const owner = '0x0000007f0b0a5e509e1c56687110b171d483fdf1'

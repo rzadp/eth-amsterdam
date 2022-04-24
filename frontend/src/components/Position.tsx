@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Position, useLiquidationThreshold } from 'src/hooks'
+import { Position, useLiquidationThreshold } from '../hooks'
 import { COLORS } from '../styles/colors'
 
 export interface PositionProps {
