@@ -50,34 +50,30 @@ export function Positions() {
           </div>)
       }
       <PositionsTable>
-        <thead>
-          <tr>
-            <TableHeaderItem>Owner</TableHeaderItem>
-            <TableHeaderItem>Lower tick</TableHeaderItem>
-            <TableHeaderItem>Upper tick</TableHeaderItem>
-            <TableHeaderItem>Margin</TableHeaderItem>
-            <TableHeaderItem>Threshold</TableHeaderItem>
-            <TableHeaderItem>Margin buffer</TableHeaderItem>
-          </tr>
-        </thead>
+        <TableHeaderItem>Owner</TableHeaderItem>
+        <TableHeaderItem>Lower tick</TableHeaderItem>
+        <TableHeaderItem>Upper tick</TableHeaderItem>
+        <TableHeaderItem>Margin</TableHeaderItem>
+        <TableHeaderItem>Threshold</TableHeaderItem>
+        <TableHeaderItem>Margin buffer</TableHeaderItem>
 
-        <tbody>
-          {positions.map((position) => (
-            <Position key={position.id} position={position}/>
-          ))}
-        </tbody>
+      {positions.map((position) => (
+        <Position key={position.id} position={position}/>
+      ))}
       </PositionsTable>
     </div>
   )
 }
 
-const PositionsTable = styled.table`
+const PositionsTable = styled.div`
   margin: 10px 20px 80px;
   width: calc(100% - 40px);
-  border-collapse: collapse;
+  display: grid;
+  grid-template-columns: auto auto auto auto auto auto;
+   row-gap: 20px;
 `
 
-const TableHeaderItem = styled.th`
+const TableHeaderItem = styled.div`
   font-weight: normal;
   text-align: left;
 `

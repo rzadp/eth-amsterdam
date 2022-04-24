@@ -22,6 +22,7 @@ export function usePositions () {
 
   const positions: Position[] = useMemo(() => {
     if (!data?.positions) return []
+
     return data.positions.map((position) => ({
       id: position.id,
       tickUpper: BigNumber.from(position.tickUpper.value),
