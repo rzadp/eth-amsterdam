@@ -9,4 +9,7 @@ export const COLORS = {
   warning500: '#FFAD0D',
   warning400: '#FFC749',
   warning100: '#FFF5CE',
+  gray400: '#E2E4E8',
+  gray100: '#FAFAFB',
+  gray900: '#8C93A3',
 }
