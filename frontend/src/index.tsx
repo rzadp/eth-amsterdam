@@ -1,6 +1,5 @@
-import { Config, DAppProvider, Kovan } from '@usedapp/core'
-import { getDefaultProvider } from 'ethers'
 import React from 'react'
+import { Config, DAppProvider, Kovan } from '@usedapp/core'
 import ReactDOM from 'react-dom'
 import {
   ApolloClient,
@@ -10,6 +9,8 @@ import {
 
 import { App } from './App'
 import { SUBGRAPH_URL } from './consts'
+import {WalletsProvider} from './provider/WalletsProvider'
+import { FontStyles } from './styles/fonts'
 
 const config: Config = {
   readOnlyChainId: Kovan.chainId,
@@ -26,7 +27,10 @@ const client = new ApolloClient({
 ReactDOM.render(
     <DAppProvider config={config}>
       <ApolloProvider client={client}>
-        <App />
+          <WalletsProvider>
+            <FontStyles />
+            <App />
+          </WalletsProvider>
       </ApolloProvider>
     </DAppProvider>,
   document.getElementById('root')

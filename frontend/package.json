@@ -4,35 +4,51 @@
   "repository": "https://github.com/rzadp/eth-amsterdam.git",
   "license": "MIT",
   "scripts": {
-    "dev": "parcel ./src/index.html --open",
+    "dev": "webpack serve --mode development --config webpack.config.js",
     "start": "yarn dev",
-    "prebuild": "rm -rf build",
-    "build": "yarn codegen:graphql && parcel build --public-url ./ ./src/index.html",
+    "prebuild": "rm -rf build dist",
+    "build": "yarn codegen:graphql && webpack --mode production --config webpack.config.js",
     "schemaUpdate": "get-graphql-schema https://api.thegraph.com/subgraphs/name/voltzprotocol/v1 > ./src/queries/v1.graphql",
     "codegen:graphql": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
     "@apollo/client": "^3.5.10",
+    "@epnsproject/frontend-sdk-staging": "^1.7.4",
+    "@parcel/transformer-raw": "^2.5.0",
     "@usedapp/core": "^1.0.0",
+    "@web3-react/walletlink-connector": "^6.2.14",
+    "@web3-react/walletconnect-connector": "^6.2.13",
+    "@web3auth/openlogin-adapter": "^0.9.3",
+    "@web3auth/web3auth": "^0.9.3",
+    "epns-frontend-sdk-staging": "^2.1.0",
     "ethers": "^5.6.4",
     "graphql": "^16.3.0",
     "react": "^17.0.0",
-    "react-dom": "^17.0.0"
+    "react-dom": "^17.0.0",
+    "styled-components": "^5.3.5"
   },
   "devDependencies": {
-    "@types/react": "^17.0.0",
-    "@types/react-dom": "^17.0.0",
     "@graphql-codegen/cli": "^2.6.2",
     "@graphql-codegen/fragment-matcher": "^3.2.1",
     "@graphql-codegen/introspection": "^2.1.1",
     "@graphql-codegen/typescript": "^2.4.8",
     "@graphql-codegen/typescript-operations": "^2.3.5",
     "@graphql-codegen/typescript-react-apollo": "^3.2.11",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "copy-webpack-plugin": "^10.2.4",
+    "css-loader": "^6.7.1",
+    "esbuild-loader": "^2.18.0",
     "eslint": "^8.13.0",
+    "file-loader": "^6.2.0",
     "get-graphql-schema": "^2.1.2",
+    "html-webpack-plugin": "^3.0.0",
     "parcel": "^2.5.0",
     "process": "^0.11.10",
-    "typescript": "^4.6.3"
+    "typescript": "^4.6.3",
+    "webpack": "^4.44.0",
+    "webpack-cli": "^4.1.0",
+    "webpack-dev-server": "^3.11.0"
   },
   "alias": {
     "src": "./src"

@@ -36,6 +36,23 @@ app.get("/epns/send-example", async (req: Request, res: Response) => {
   res.send(tx);
 });
 
+app.get('/epns/send/:message', async (req: Request, res: Response) => {
+  const title = "Margin Requirement Alert"
+  const message = req.params.message
+  const tx = await sendNotification(epnsSdk, {
+      recipientAddress: "0x222232c882677d524C4C1DD3AcD477ED7938F9d5",
+      notification: {
+          title,
+          message
+      },
+      pushNotification: {
+          title,
+          message
+      },
+  })
+  res.send(tx)
+})
+
 app.get("/epns/get-users", async (req: Request, res: Response) => {
   res.send(await epnsSdk.getSubscribedUsers());
 });
@@ -45,7 +62,7 @@ app.get("/topWatched", async (req: Request, res: Response) => {
 });
 
 app.listen(port, async () => {
-  console.log(`⚡️[server]: Server is running at https://localhost:${port}`);
+  console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
 
   await getPositions(positionsStore);
 
