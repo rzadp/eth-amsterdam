@@ -7,6 +7,7 @@ import { sendNotification } from "./src/notifications";
 import { CHANNEL_PK } from "./config";
 import { create } from 'ipfs-http-client'
 import { generate } from 'text-to-image'
+import cors from 'cors'
 
 const ipfs = create({url: 'http://localhost:5001/api/v0'})
 const UPDATE_INTERVAL = 5 * 60 * 1000;
@@ -14,7 +15,8 @@ const UPDATE_INTERVAL = 5 * 60 * 1000;
 dotenv.config();
 
 const app: Express = express();
-const port = 8080;
+app.use(cors());
+const port = 8081;
 
 const epnsSdk = new EpnsSDK(CHANNEL_PK);
 
